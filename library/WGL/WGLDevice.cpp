@@ -1,9 +1,6 @@
 #include "WGLDevice.h"
 
-TexelWGL::Device::Device(void) :
-    TexelGL::Device()
-{
-}
+TexelGL::Device &TexelGL::Device::currentDevice = TexelWGL::Device::currentDevice;
 
 int16_t
 TexelWGL::Device::getContextIndex(TexelWGL::Context::Handle handle)
@@ -14,17 +11,13 @@ TexelWGL::Device::getContextIndex(TexelWGL::Context::Handle handle)
     return contextIndex;
 }
 
-TexelWGL::Context::Handle
-TexelWGL::Device::createContextHandle(Context::Descriptor const &descriptor)
+TexelWGL::Device::Device(void) :
+    TexelGL::Device()
 {
-    auto const handle = static_cast <Context::Handle> (this->contexts.size()) +
-                        1;
-    auto const context = std::make_shared <Context> (descriptor,
-                                                     handle);
+}
 
-    this->contexts.push_back(context);
-    this->setCurrentContextHandle(handle);
-    return handle;
+TexelWGL::Device::~Device(void)
+{
 }
 
 void

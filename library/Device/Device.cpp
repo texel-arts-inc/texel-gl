@@ -1,6 +1,5 @@
 #include "Device.h"
 
-TexelGL::Device TexelGL::Device::currentDevice = {};
 thread_local std::shared_ptr <TexelGL::Context> TexelGL::Device::currentContext = nullptr;
 
 TexelGL::Device::Device(void)
@@ -14,6 +13,10 @@ TexelGL::Device::Device(void)
         this->extensionsString += extensionName +
                                   " ";
     }
+}
+
+TexelGL::Device::~Device(void)
+{
 }
 
 void

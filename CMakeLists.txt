@@ -4,6 +4,8 @@ set(TEXEL_GL_VERSION 1.0)
 
 project(TexelGL VERSION ${TEXEL_GL_VERSION})
 
+# Options
+option(ENABLE_VULKAN "Enable Vulkan backend support" TRUE)
 
 # Compiler flags
 add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/EHsc>)   # Enable exceptions for MSVC

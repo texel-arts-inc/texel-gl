@@ -6,16 +6,22 @@
 #include "WGLContext.h"
 
 namespace TexelWGL {
-    class Device: public TexelGL::Device {
-    private:
-        Device(void);
+    class Device: public virtual TexelGL::Device {
+    public:
+        static Device &currentDevice;
 
+    private:
         static int16_t
         getContextIndex(TexelWGL::Context::Handle handle);
 
+    protected:
+        Device(void);
+
     public:
-        TexelWGL::Context::Handle
-        createContextHandle(Context::Descriptor const &descriptor);
+        virtual ~Device(void);
+
+        virtual TexelWGL::Context::Handle
+        createContextHandle(Context::Descriptor const &descriptor) = 0;
 
         void
         deleteContextHandle(TexelWGL::Context::Handle handle);

@@ -12,7 +12,7 @@ namespace TexelGL {
 namespace TexelGL {
     class Device {
     public:
-        static Device currentDevice;
+        static Device &currentDevice;
         static thread_local std::shared_ptr <Context> currentContext;
 
     protected:
@@ -21,7 +21,7 @@ namespace TexelGL {
 
     protected:
         Device(void);
-        virtual ~Device(void) = default;
+        virtual ~Device(void);
 
         void
         deleteContext(std::shared_ptr <Context> const &context);
