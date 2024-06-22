@@ -1,6 +1,9 @@
 #include <cassert>
 #include <map>
+#include <memory>
+#include <vector>
 #include "Entrypoints.h"
+#include "WGLDevice.h"
 
 extern "C" {
     __declspec(dllexport) int32_t
@@ -192,8 +195,9 @@ createContext(WGL::DeviceContext deviceContext)
     auto const descriptor = Context::Descriptor {
         .deviceContext = deviceContext,
     };
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
 
-    return reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (Device::currentDevice.createContext(descriptor)));
+    return reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (device.createContextHandle(descriptor)));
 }
 
 WGL::ResourceContext
@@ -203,21 +207,23 @@ createLayerContext(WGL::DeviceContext deviceContext,
     auto const descriptor = Context::Descriptor {
         .deviceContext = deviceContext,
     };
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
 
-    return reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (Device::currentDevice.createContext(descriptor)));
+    return reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (device.createContextHandle(descriptor)));
 }
 
 int32_t
 deleteContext(WGL::ResourceContext resourceContext)
 {
     auto const handle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (resourceContext));
-    auto const &context = Device::currentDevice.getContext(handle);
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto const &context = device.getContext(handle);
 
     if (!context) {
         return false;
     }
 
-    Device::currentDevice.deleteContext(handle);
+    device.deleteContextHandle(handle);
     return true;
 }
 
@@ -233,15 +239,19 @@ describePixelFormat(WGL::DeviceContext deviceContext,
 WGL::ResourceContext
 getCurrentContext(void)
 {
-    return Device::currentContext ? reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (Device::currentContext->getHandle())) :
-                                    nullptr;
+    auto const &context = std::static_pointer_cast <TexelWGL::Context> (Device::currentContext);
+
+    return context ? reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (context->getHandle())) :
+                     nullptr;
 }
 
 WGL::DeviceContext
 getCurrentDeviceContext(void)
 {
-    return Device::currentContext ? Device::currentContext->getDescriptor().deviceContext :
-                                   nullptr;
+    auto const &context = std::static_pointer_cast <TexelWGL::Context> (Device::currentContext);
+
+    return context ? context->getDescriptor().deviceContext :
+                     nullptr;
 }
 
 WGL::DeviceContext
@@ -325,19 +335,21 @@ int32_t
 makeCurrentContext(WGL::DeviceContext deviceContext,
                    WGL::ResourceContext resourceContext)
 {
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
     if (!resourceContext) {
-        Device::currentDevice.setCurrentContext(0);
+        device.setCurrentContextHandle(0);
         return true;
     }
 
     auto const handle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (resourceContext));
-    auto const &context = Device::currentDevice.getContext(handle);
+    auto const &context = device.getContext(handle);
 
     if (!context) {
         return false;
     }
 
-    Device::currentDevice.setCurrentContext(handle);
+    device.setCurrentContextHandle(handle);
     return true;
 }
 

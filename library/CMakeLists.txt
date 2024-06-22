@@ -59,10 +59,13 @@ list(
     ${SPIRV_TOOLS_TARGET}
 )
 
+add_subdirectory(Device)
+
 if(WIN32)
     add_subdirectory(WGL)
     list(
         APPEND TEXEL_GL_LIBRARY_DEPENDENCIES
+        TexelGLDevice
         TexelWGLLibrary
     )
 endif()

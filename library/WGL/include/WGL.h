@@ -1,9 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
-#include <string>
-#include <vector>
 
 namespace WGL {
     struct PixelFormatDescriptor {
@@ -128,64 +125,4 @@ namespace WGL {
 
     using DeviceContext = void const *;
     using ResourceContext = void const *;
-}
-
-namespace TexelWGL {
-    class Context {
-    public:
-        struct Descriptor {
-            WGL::DeviceContext deviceContext = nullptr;
-        };
-
-        using Handle = uint16_t;
-
-    private:
-        Descriptor descriptor = {};
-        Handle handle = 0;
-
-    public:
-        Context(Descriptor const &descriptor,
-                Handle handle);
-
-        Descriptor const &
-        getDescriptor(void) const;
-
-        Handle
-        getHandle(void) const;
-    };
-
-    class Device {
-    public:
-        static Device currentDevice;
-        static thread_local std::shared_ptr <Context> currentContext;
-
-    private:
-        std::vector <std::shared_ptr <Context>> contexts = {};
-        std::string extensionsString = "";
-
-    private:
-        Device(void);
-
-        static int16_t
-        getContextIndex(TexelWGL::Context::Handle handle);
-
-    public:
-        TexelWGL::Context::Handle
-        createContext(Context::Descriptor const &descriptor);
-
-        void
-        deleteContext(TexelWGL::Context::Handle handle);
-
-        std::shared_ptr <Context>
-        getContext(TexelWGL::Context::Handle handle) const;
-
-        TexelWGL::Context::Handle
-        getCurrentContext(void) const;
-
-        std::string const &
-        getExtensionsString(void) const;
-
-        void
-        setCurrentContext(TexelWGL::Context::Handle handle);
-    };
-}
+} // namespace WGL
