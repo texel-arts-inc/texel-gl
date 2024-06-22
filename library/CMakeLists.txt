@@ -59,6 +59,14 @@ list(
     ${SPIRV_TOOLS_TARGET}
 )
 
+if(WIN32)
+    add_subdirectory(WGL)
+    list(
+        APPEND TEXEL_GL_LIBRARY_DEPENDENCIES
+        TexelWGLLibrary
+    )
+endif()
+
 add_library(TexelGLLibrary ${TEXEL_GL_LIBRARY_TYPE} ${TEXEL_GL_HEADERS} ${TEXEL_GL_SOURCES})
 set_target_properties(TexelGLLibrary PROPERTIES OUTPUT_NAME ${TEXEL_GL_LIBRARY_NAME})
 target_include_directories(TexelGLLibrary PRIVATE ${TEXEL_GL_LIBRARY_INCLUDE_DIRECTORIES})
