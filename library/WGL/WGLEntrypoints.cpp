@@ -1,136 +1,9 @@
 #include <cassert>
-#include <map>
 #include <memory>
 #include <vector>
 #include "Entrypoints.h"
 #include "WGLEntrypoints.h"
 #include "WGLDevice.h"
-
-EXPORT_API int32_t
-wglChoosePixelFormat(WGL::DeviceContext deviceContext,
-                        WGL::PixelFormatDescriptor *pixelFormatDescriptor)
-{
-    return TexelWGL::choosePixelFormatWithDescriptor(deviceContext,
-                                                     pixelFormatDescriptor);
-}
-
-EXPORT_API int32_t
-wglCopyContext(WGL::ResourceContext source,
-               WGL::ResourceContext destination,
-               uint32_t groups)
-{
-    return TexelWGL::copyContext(source,
-                                 destination,
-                                 groups);
-}
-
-EXPORT_API WGL::ResourceContext
-wglCreateContext(WGL::DeviceContext deviceContext)
-{
-    return TexelWGL::createContext(deviceContext);
-}
-
-EXPORT_API WGL::ResourceContext
-wglCreateLayerContext(WGL::DeviceContext deviceContext,
-                      int32_t layer)
-{
-    return TexelWGL::createLayerContext(deviceContext,
-                                        layer);
-}
-
-EXPORT_API int32_t
-wglDeleteContext(WGL::ResourceContext resourceContext)
-{
-    return TexelWGL::deleteContext(resourceContext);
-}
-
-EXPORT_API int32_t
-wglDescribePixelFormat(WGL::DeviceContext deviceContext,
-                       int32_t pixelFormat,
-                       uint32_t numBytes,
-                       WGL::PixelFormatDescriptor *pixelFormatDescriptor)
-{
-    return TexelWGL::describePixelFormat(deviceContext,
-                                         pixelFormat,
-                                         numBytes,
-                                         pixelFormatDescriptor);
-}
-
-EXPORT_API WGL::ResourceContext
-wglGetCurrentContext(void)
-{
-    return TexelWGL::getCurrentContext();
-}
-
-EXPORT_API WGL::DeviceContext
-wglGetCurrentDC(void)
-{
-    return TexelWGL::getCurrentDeviceContext();
-}
-
-EXPORT_API WGL::DeviceContext
-wglGetCurrentReadDC(void)
-{
-    return TexelWGL::getCurrentReadDeviceContext();
-}
-
-EXPORT_API int32_t
-wglGetPixelFormat(WGL::DeviceContext deviceContext)
-{
-    return TexelWGL::getPixelFormat(deviceContext);
-}
-
-EXPORT_API void const *
-wglGetProcAddress(char const *name)
-{
-    return TexelWGL::getProcedureAddress(name);
-}
-
-EXPORT_API char const *
-wglGetExtensionsString(WGL::DeviceContext deviceContext)
-{
-    return TexelWGL::getExtensionsString(deviceContext).c_str();
-}
-
-EXPORT_API int32_t
-wglMakeCurrent(WGL::DeviceContext deviceContext,
-               WGL::ResourceContext resourceContext)
-{
-    return TexelWGL::makeCurrentContext(deviceContext,
-                                        resourceContext);
-}
-
-EXPORT_API int32_t
-wglSetPixelFormat(WGL::DeviceContext deviceContext,
-                  int32_t pixelFormat,
-                  WGL::PixelFormatDescriptor *pixelFormatDescriptor)
-{
-    return TexelWGL::setPixelFormat(deviceContext,
-                                    pixelFormat,
-                                    pixelFormatDescriptor);
-}
-
-EXPORT_API int32_t
-wglShareLists(WGL::ResourceContext source,
-              WGL::ResourceContext destination)
-{
-    return TexelWGL::shareLists(source,
-                                destination);
-}
-
-EXPORT_API int32_t
-wglSwapBuffers(WGL::DeviceContext deviceContext)
-{
-    return TexelWGL::swapBuffers(deviceContext);
-}
-
-EXPORT_API int32_t
-wglSwapLayerBuffers(WGL::DeviceContext deviceContext,
-                    int32_t layer)
-{
-    return TexelWGL::swapLayerBuffers(deviceContext,
-                                      layer);
-}
 
 namespace TexelWGL {
 int32_t
@@ -143,11 +16,11 @@ choosePixelFormatWithDescriptor(WGL::DeviceContext deviceContext,
 
 int32_t
 choosePixelFormat(WGL::DeviceContext deviceContext,
-                 int32_t const *attribIList,
-                 float const *attribFList,
-                 uint32_t numMaxFormats,
-                 int32_t *formats,
-                 uint32_t *numFormats)
+                  int32_t const *attribIList,
+                  float const *attribFList,
+                  uint32_t numMaxFormats,
+                  int32_t *formats,
+                  uint32_t *numFormats)
 {
     if (!numMaxFormats) {
         return false;
@@ -232,13 +105,22 @@ describePixelFormat(WGL::DeviceContext deviceContext,
                     uint32_t numBytes,
                     WGL::PixelFormatDescriptor *pixelFormatDescriptor)
 {
-    return 1;
+    if (!pixelFormatDescriptor) {
+        return false;
+    }
+
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
+    return device.describePixelFormat(deviceContext,
+                                      pixelFormat,
+                                      numBytes,
+                                      *pixelFormatDescriptor);
 }
 
 WGL::ResourceContext
 getCurrentContext(void)
 {
-    auto const &context = std::static_pointer_cast <TexelWGL::Context> (Device::currentContext);
+    auto const &context = std::dynamic_pointer_cast <TexelWGL::Context> (Device::currentContext);
 
     return context ? reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (context->getHandle())) :
                      nullptr;
@@ -247,7 +129,7 @@ getCurrentContext(void)
 WGL::DeviceContext
 getCurrentDeviceContext(void)
 {
-    auto const &context = std::static_pointer_cast <TexelWGL::Context> (Device::currentContext);
+    auto const &context = std::dynamic_pointer_cast <TexelWGL::Context> (Device::currentContext);
 
     return context ? context->getDescriptor().deviceContext :
                      nullptr;
@@ -260,10 +142,10 @@ getCurrentReadDeviceContext(void)
     return nullptr;
 }
 
-std::string const &
+char const *
 getExtensionsString(WGL::DeviceContext deviceContext)
 {
-    return Device::currentDevice.getExtensionsString();
+    return Device::currentDevice.getExtensionsString().c_str();
 }
 
 int32_t
@@ -297,37 +179,10 @@ getPixelFormatAttribiv(WGL::DeviceContext deviceContext,
 void const *
 getProcedureAddress(char const *name)
 {
+    auto const &device = static_cast <TexelWGL::Device const &> (Device::currentDevice);
     auto const procedureName = std::string(name);
-    static auto const mappings = std::map <std::string,
-                                           void *> {
-        { "wglCopyContext", wglCopyContext },
-        { "wglChoosePixelFormat", wglChoosePixelFormat },
-        { "wglChoosePixelFormatARB", choosePixelFormat },
-        { "wglCreateContext", wglCreateContext },
-        { "wglCreateLayerContext", wglCreateLayerContext },
-        { "wglDeleteContext", wglDeleteContext },
-        { "wglDescribePixelFormat", wglDescribePixelFormat },
-        { "wglGetCurrentContext", wglGetCurrentContext },
-        { "wglGetCurrentDC", wglGetCurrentDC },
-        { "wglGetCurrentReadDC", wglGetCurrentReadDC },
-        { "wglGetExtensionsString", wglGetExtensionsString },
-        { "wglGetExtensionsStringARB", wglGetExtensionsString },
-        { "wglGetPixelFormat", wglGetPixelFormat },
-        { "wglGetPixelFormatAttribfvARB", getPixelFormatAttribfv },
-        { "wglGetPixelFormatAttribivARB", getPixelFormatAttribiv },
-        { "wglGetProcAddress", wglGetProcAddress },
-        { "wglMakeCurrent", wglMakeCurrent },
-        { "wglSetPixelFormat", wglSetPixelFormat },
-        { "wglShareLists", wglShareLists },
-        { "wglSwapBuffers", wglSwapBuffers },
-        { "wglSwapLayerBuffers", wglSwapLayerBuffers },
-    };
 
-    if (!mappings.contains(procedureName)) {
-        return nullptr;
-    }
-
-    return mappings.at(name);
+    return device.getProcedureAddress(procedureName);
 }
 
 int32_t

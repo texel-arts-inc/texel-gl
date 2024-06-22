@@ -1,27 +1,29 @@
+#include "WGLVulkanContext.h"
 #include "WGLVulkanDevice.h"
 
 TexelWGL::Device &TexelWGL::Device::currentDevice = TexelWGL::Vulkan::Device::currentDevice;
 TexelWGL::Vulkan::Device TexelWGL::Vulkan::Device::currentDevice = {};
 
+std::vector <std::string>
+TexelWGL::Vulkan::Device::getExtensionsNames(void)
+{
+    return {};
+}
+
 TexelWGL::Vulkan::Device::Device(void) :
-    TexelWGL::Device(),
+    TexelWGL::Device(TexelWGL::Vulkan::Device::getExtensionsNames()),
     TexelGL::Vulkan::Device()
 {
 }
 
-TexelWGL::Vulkan::Device::~Device(void)
+std::shared_ptr <TexelWGL::Context>
+TexelWGL::Vulkan::Device::createContext(TexelWGL::Context::Descriptor const &descriptor,
+                                        TexelWGL::Context::Handle handle) const
 {
+    return std::make_shared <TexelWGL::Vulkan::Context> (descriptor,
+                                                         handle);
 }
 
-TexelWGL::Context::Handle
-TexelWGL::Vulkan::Device::createContextHandle(Context::Descriptor const &descriptor)
+TexelWGL::Vulkan::Device::~Device(void)
 {
-    auto const handle = static_cast <Context::Handle> (this->contexts.size()) +
-                        1;
-    auto const context = std::make_shared <Context> (descriptor,
-                                                     handle);
-
-    this->contexts.push_back(context);
-    this->setCurrentContextHandle(handle);
-    return handle;
 }

@@ -1,14 +1,11 @@
+#include <map>
 #include "Device.h"
+#include "Entrypoints.h"
 
 thread_local std::shared_ptr <TexelGL::Context> TexelGL::Device::currentContext = nullptr;
 
-TexelGL::Device::Device(void)
+TexelGL::Device::Device(std::vector <std::string> const &extensionsNames)
 {
-    static auto const extensionsNames = std::vector <std::string> {
-        "WGL_ARB_extensions_string",
-        "WGL_ARB_pixel_format",
-    };
-
     for (auto const &extensionName: extensionsNames) {
         this->extensionsString += extensionName +
                                   " ";
@@ -46,6 +43,22 @@ std::string const &
 TexelGL::Device::getExtensionsString(void) const
 {
     return this->extensionsString;
+}
+
+void *
+TexelGL::Device::getProcedureAddress(std::string const &name) const
+{
+    static auto const mappings = std::map <std::string,
+                                           void *> {
+        { "glCreateRenderbuffers", glCreateRenderbuffers },
+        { "glGenRenderbuffers", glGenRenderbuffers },
+    };
+
+    if (!mappings.contains(name)) {
+        return nullptr;
+    }
+
+    return mappings.at(name);
 }
 
 void

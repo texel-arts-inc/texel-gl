@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Device.h"
+#include "Context.h"
 
 namespace TexelGL {
 namespace Vulkan {
-    class Device : public virtual TexelGL::Device {
+    class Context : public virtual TexelGL::Context {
     protected:
-        Device(void);
+        Context(void);
 
     public:
-        virtual ~Device(void);
+        virtual ~Context(void);
     };
 } // namespace Vulkan
 } // namespace TexelGL

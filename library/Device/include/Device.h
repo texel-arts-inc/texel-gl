@@ -20,7 +20,10 @@ namespace TexelGL {
         std::string extensionsString = "";
 
     protected:
-        Device(void);
+        Device(void) = default;
+
+        Device(std::vector <std::string> const &extensionsNames);
+
         virtual ~Device(void);
 
         void
@@ -33,7 +36,10 @@ namespace TexelGL {
         setCurrentContext(std::shared_ptr <Context> const &context);
 
     public:
-        std::string const &
+        virtual std::string const &
         getExtensionsString(void) const;
+
+        virtual void *
+        getProcedureAddress(std::string const &name) const;
     };
 } // namespace TexelGL

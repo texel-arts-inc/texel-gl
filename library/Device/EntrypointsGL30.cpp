@@ -4,6 +4,12 @@
 #include "Entrypoints.h"
 #include "OpenGLDefinitions.h"
 
+void
+glGenRenderbuffers(int32_t n,
+                   uint32_t *renderbuffers)
+{
+}
+
 EXPORT_API void
 glGetIntegerv(TexelGL::GL::Enum name,
               int32_t &data)

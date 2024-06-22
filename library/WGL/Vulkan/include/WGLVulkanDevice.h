@@ -11,13 +11,18 @@ namespace Vulkan {
         static Device currentDevice;
 
     private:
+        static std::vector <std::string>
+        getExtensionsNames(void);
+
+    private:
         Device(void);
+
+        virtual std::shared_ptr <TexelWGL::Context>
+        createContext(TexelWGL::Context::Descriptor const &descriptor,
+                      TexelWGL::Context::Handle handle) const override;
 
     public:
         virtual ~Device(void);
-
-        virtual TexelWGL::Context::Handle
-        createContextHandle(Context::Descriptor const &descriptor) override;
     };
 } // namespace Vulkan
 } // namespace TexelGL

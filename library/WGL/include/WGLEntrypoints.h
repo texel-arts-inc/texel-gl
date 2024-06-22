@@ -9,6 +9,14 @@ namespace TexelWGL {
                                     WGL::PixelFormatDescriptor *pixelFormatDescriptor);
 
     int32_t
+    choosePixelFormat(WGL::DeviceContext deviceContext,
+                      int32_t const *attribIList,
+                      float const *attribFList,
+                      uint32_t numMaxFormats,
+                      int32_t *formats,
+                      uint32_t *numFormats);
+
+    int32_t
     copyContext(WGL::ResourceContext source,
                 WGL::ResourceContext destination,
                 uint32_t groups);
@@ -38,11 +46,27 @@ namespace TexelWGL {
     WGL::DeviceContext
     getCurrentReadDeviceContext(void);
 
-    std::string const &
+    char const *
     getExtensionsString(WGL::DeviceContext deviceContext);
 
     int32_t
     getPixelFormat(WGL::DeviceContext hdc);
+
+    int32_t
+    getPixelFormatAttribfv(WGL::DeviceContext hdc,
+                           int32_t pixelFormat,
+                           int32_t layerPlane,
+                           uint32_t numAttributes,
+                           int32_t const *attributes,
+                           float *values);
+
+    int32_t
+    getPixelFormatAttribiv(WGL::DeviceContext deviceContext,
+                           int32_t pixelFormat,
+                           int32_t layerPlane,
+                           uint32_t numAttributes,
+                           int32_t const *attributes,
+                           int32_t *values);
 
     void const *
     getProcedureAddress(char const *name);
