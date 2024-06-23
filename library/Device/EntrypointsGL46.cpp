@@ -1,3 +1,4 @@
 #include <cassert>
-#include "Entrypoints.h"
-#include "OpenGLDefinitions.h"
+#include "Context.h"
+#include "Device.h"
+#include "EntrypointsGL46.h"

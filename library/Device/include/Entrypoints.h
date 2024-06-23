@@ -1,14 +1,9 @@
 #pragma once
 
-#include <cstdint>
+#include "OpenGLDefinitions.h"
 
 #if defined(_WIN32)
     #define EXPORT_API extern "C" __declspec(dllexport)
+#else
+    #define EXPORT_API  extern "C" __attribute__((visibility("default")))
 #endif
-
-EXPORT_API void
-glCreateRenderbuffers(int32_t n,
-                      uint32_t *renderbuffers);
-EXPORT_API void
-glGenRenderbuffers(int32_t n,
-                   uint32_t *renderbuffers);

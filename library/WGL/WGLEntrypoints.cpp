@@ -226,8 +226,7 @@ shareLists(WGL::ResourceContext source,
 int32_t
 swapBuffers(WGL::DeviceContext deviceContext)
 {
-    assert(false);
-    return 1;
+    return true;
 }
 
 int32_t
