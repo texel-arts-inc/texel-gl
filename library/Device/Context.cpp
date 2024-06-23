@@ -23,6 +23,22 @@ TexelGL::Context::~Context(void)
 {
 }
 
+TexelGL::Context &
+TexelGL::Context::operator = (Context const &other)
+{
+    auto &immutableState = const_cast <ImmutableState &> (this->immutableState);
+
+    immutableState = other.immutableState;
+    return *this;
+}
+
+bool
+TexelGL::Context::copyTo(Context &context) const
+{
+    context = *this;
+    return true;
+}
+
 TexelGL::Context::ImmutableState::Extensions const &
 TexelGL::Context::getExtensions(void) const
 {

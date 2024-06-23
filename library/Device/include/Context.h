@@ -38,6 +38,12 @@ namespace TexelGL {
         Context(void);
         virtual ~Context(void);
 
+        Context &
+        operator = (Context const &other);
+
+        bool
+        copyTo(Context &context) const;
+
         ImmutableState::Extensions const &
         getExtensions(void) const;
 
