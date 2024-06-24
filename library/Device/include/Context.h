@@ -21,7 +21,7 @@ namespace TexelGL {
             Extensions extensions = {};
         };
 
-    private:
+    protected:
         ImmutableState const immutableState = {};
 
     public:
@@ -37,7 +37,8 @@ namespace TexelGL {
         ContextInterfaceGL46 gl46;
 
     public:
-        Context(void);
+        Context(std::string const &deviceName);
+
         virtual ~Context(void);
 
         Context &

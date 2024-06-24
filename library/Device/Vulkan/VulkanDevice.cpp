@@ -1,7 +1,7 @@
 #include "VulkanDevice.h"
 
-TexelGL::Vulkan::Device::Device(void) :
-    TexelGL::Device::Device()
+vk::Instance
+TexelGL::Vulkan::Device::createDefaultInstance(void)
 {
     auto const applicationName = std::string();
     auto const applicationVersion = 1;
@@ -16,10 +16,35 @@ TexelGL::Vulkan::Device::Device(void) :
     auto const instanceCreateInfo = vk::InstanceCreateInfo({},
                                                            &applicationInfo);
     auto instance = vk::createInstance(instanceCreateInfo);
-    auto const &physicalDevices = instance.enumeratePhysicalDevices();
 
-    this->instance = instance;
-    this->physicalDevices = physicalDevices;
+    return instance;
+}
+
+size_t
+TexelGL::Vulkan::Device::getDefaultPhysicalDeviceIndex(void)
+{
+    return 0;
+}
+
+vk::PhysicalDevice
+TexelGL::Vulkan::Device::createDefaultPhysicalDevice(void) const
+{
+    auto const &physicalDevices = this->instance.enumeratePhysicalDevices();
+    auto physicalDevice = vk::PhysicalDevice(nullptr);
+
+    if (!physicalDevices.empty()) {
+        physicalDevice = physicalDevices[this->physicalDeviceIndex];
+    }
+
+    return physicalDevice;
+}
+
+TexelGL::Vulkan::Device::Device(void) :
+    TexelGL::Device::Device(),
+    instance(Device::createDefaultInstance()),
+    physicalDeviceIndex(Device::getDefaultPhysicalDeviceIndex()),
+    physicalDevice(this->createDefaultPhysicalDevice())
+{
 }
 
 TexelGL::Vulkan::Device::~Device(void)

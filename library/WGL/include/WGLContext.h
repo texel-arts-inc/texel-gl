@@ -5,7 +5,7 @@
 #include "WGL.h"
 
 namespace TexelWGL {
-    class Context: public TexelGL::Context {
+    class Context: public virtual TexelGL::Context {
     public:
         struct Descriptor {
             WGL::DeviceContext deviceContext = nullptr;
@@ -19,7 +19,8 @@ namespace TexelWGL {
 
     public:
         Context(Descriptor const &descriptor,
-                Handle handle);
+                Handle handle,
+                std::string const &deviceName);
         virtual ~Context(void);
 
         Descriptor const &

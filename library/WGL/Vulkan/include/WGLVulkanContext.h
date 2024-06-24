@@ -9,7 +9,8 @@ namespace Vulkan {
                    public TexelGL::Vulkan::Context {
     public:
         Context(TexelWGL::Context::Descriptor const &descriptor,
-                TexelWGL::Context::Handle handle);
+                TexelWGL::Context::Handle handle,
+                vk::PhysicalDevice const &physicalDevice);
         virtual ~Context(void);
     };
 } // namespace Vulkan

@@ -1,7 +1,9 @@
 #include "WGLContext.h"
 
 TexelWGL::Context::Context(Descriptor const &descriptor,
-                           Handle handle) :
+                           Handle handle,
+                           std::string const &deviceName) :
+    TexelGL::Context(deviceName),
     descriptor(descriptor),
     handle(handle)
 {

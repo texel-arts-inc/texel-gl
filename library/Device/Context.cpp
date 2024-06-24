@@ -1,12 +1,13 @@
 #include <cassert>
 #include "Context.h"
 
-TexelGL::Context::Context(void) :
+TexelGL::Context::Context(std::string const &deviceName) :
     immutableState(Context::ImmutableState {
         .version = Context::ImmutableState::Version {
             .major = 4,
             .minor = 6,
         },
+        .renderer = deviceName,
     }),
     gl10(*this),
     gl11(*this),

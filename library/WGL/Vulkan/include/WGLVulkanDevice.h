@@ -5,14 +5,10 @@
 
 namespace TexelWGL {
 namespace Vulkan {
-    class Device : public TexelWGL::Device,
-                   public TexelGL::Vulkan::Device {
+    class Device: public TexelWGL::Device,
+                  public TexelGL::Vulkan::Device {
     public:
         static Device currentDevice;
-
-    private:
-        static std::vector <std::string>
-        getExtensionsNames(void);
 
     private:
         Device(void);

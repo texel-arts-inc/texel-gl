@@ -6,7 +6,7 @@
 #include "WGLContext.h"
 
 namespace TexelWGL {
-    class Device: public TexelGL::Device {
+    class Device: public virtual TexelGL::Device {
     public:
         static Device &currentDevice;
 
@@ -14,11 +14,13 @@ namespace TexelWGL {
         static int16_t
         getContextIndex(TexelWGL::Context::Handle handle);
 
-    private:
+    protected:
         static std::vector <std::string>
         getExtensionsNames(std::vector <std::string> const &backendExtensionNames);
 
     protected:
+        Device(void) = default;
+
         Device(std::vector <std::string> const &backendExtentionNames);
 
         virtual std::shared_ptr <TexelWGL::Context>

@@ -4,14 +4,9 @@
 TexelWGL::Device &TexelWGL::Device::currentDevice = TexelWGL::Vulkan::Device::currentDevice;
 TexelWGL::Vulkan::Device TexelWGL::Vulkan::Device::currentDevice = {};
 
-std::vector <std::string>
-TexelWGL::Vulkan::Device::getExtensionsNames(void)
-{
-    return {};
-}
-
 TexelWGL::Vulkan::Device::Device(void) :
-    TexelWGL::Device(TexelWGL::Vulkan::Device::getExtensionsNames()),
+    TexelGL::Device(TexelWGL::Device::getExtensionsNames({})),
+    TexelWGL::Device(),
     TexelGL::Vulkan::Device()
 {
 }
@@ -21,7 +16,8 @@ TexelWGL::Vulkan::Device::createContext(TexelWGL::Context::Descriptor const &des
                                         TexelWGL::Context::Handle handle) const
 {
     return std::make_shared <TexelWGL::Vulkan::Context> (descriptor,
-                                                         handle);
+                                                         handle,
+                                                         this->physicalDevice);
 }
 
 TexelWGL::Vulkan::Device::~Device(void)

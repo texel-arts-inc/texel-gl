@@ -1,10 +1,13 @@
 #include "WGLVulkanContext.h"
 
 TexelWGL::Vulkan::Context::Context(TexelWGL::Context::Descriptor const &descriptor,
-                                   TexelWGL::Context::Handle handle) :
+                                   TexelWGL::Context::Handle handle,
+                                   vk::PhysicalDevice const &physicalDevice) :
+    TexelGL::Context::Context(Context::getPhysicalDeviceName(physicalDevice)),
     TexelWGL::Context(descriptor,
-                      handle),
-    TexelGL::Vulkan::Context()
+                      handle,
+                      this->TexelGL::Context::immutableState.renderer),
+    TexelGL::Vulkan::Context(physicalDevice)
 {
 }
 

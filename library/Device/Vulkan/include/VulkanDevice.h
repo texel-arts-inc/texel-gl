@@ -5,10 +5,22 @@
 
 namespace TexelGL {
 namespace Vulkan {
-    class Device : public virtual TexelGL::Device {
+    class Device: public virtual TexelGL::Device {
     protected:
-        vk::Instance instance;
-        std::vector <vk::PhysicalDevice> physicalDevices;
+        vk::Instance const instance = nullptr;
+        size_t physicalDeviceIndex = 0;
+        vk::PhysicalDevice const physicalDevice = nullptr;
+
+    private:
+        static vk::Instance
+        createDefaultInstance(void);
+
+        static size_t
+        getDefaultPhysicalDeviceIndex(void);
+
+    private:
+        vk::PhysicalDevice
+        createDefaultPhysicalDevice(void) const;
 
     protected:
         Device(void);
