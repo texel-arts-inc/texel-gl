@@ -99,6 +99,12 @@ TexelWGL::Device::getCurrentContextHandle(void) const
     return context->getHandle();
 }
 
+int32_t
+TexelWGL::Device::getPixelFormat(WGL::DeviceContext hdc) const
+{
+    return 1;
+}
+
 void *
 TexelWGL::Device::getProcedureAddress(std::string const &name) const
 {

@@ -46,6 +46,9 @@ namespace TexelWGL {
         TexelWGL::Context::Handle
         getCurrentContextHandle(void) const;
 
+        int32_t
+        getPixelFormat(WGL::DeviceContext hdc) const;
+
         virtual void *
         getProcedureAddress(std::string const &name) const override;
 

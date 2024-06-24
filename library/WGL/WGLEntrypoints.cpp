@@ -159,13 +159,15 @@ getExtensionsString(WGL::DeviceContext deviceContext)
 }
 
 int32_t
-getPixelFormat(WGL::DeviceContext hdc)
+getPixelFormat(WGL::DeviceContext deviceContext)
 {
-    return 1;
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
+    return device.getPixelFormat(deviceContext);
 }
 
 int32_t
-getPixelFormatAttribfv(WGL::DeviceContext hdc,
+getPixelFormatAttribfv(WGL::DeviceContext deviceContext,
                         int32_t pixelFormat,
                         int32_t layerPlane,
                         uint32_t numAttributes,
@@ -177,11 +179,11 @@ getPixelFormatAttribfv(WGL::DeviceContext hdc,
 
 int32_t
 getPixelFormatAttribiv(WGL::DeviceContext deviceContext,
-                        int32_t pixelFormat,
-                        int32_t layerPlane,
-                        uint32_t numAttributes,
-                        int32_t const *attributes,
-                        int32_t *values)
+                       int32_t pixelFormat,
+                       int32_t layerPlane,
+                       uint32_t numAttributes,
+                       int32_t const *attributes,
+                       int32_t *values)
 {
     return true;
 }
