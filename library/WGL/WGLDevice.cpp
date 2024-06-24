@@ -70,6 +70,16 @@ TexelWGL::Device::describePixelFormat(WGL::DeviceContext deviceContext,
                                       uint32_t numBytes,
                                       WGL::PixelFormatDescriptor &pixelFormatDescriptor)
 {
+    pixelFormatDescriptor = WGL::PixelFormatDescriptor {
+        .colorBits = 24,
+        .redBits = 8,
+        .redShift = 16,
+        .greenBits = 8,
+        .greenShift = 8,
+        .blueBits = 8,
+        .blueShift = 0,
+    };
+
     return true;
 }
 

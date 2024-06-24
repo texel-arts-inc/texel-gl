@@ -15,7 +15,7 @@ namespace Vulkan {
         Context(TexelWGL::Context::Descriptor const &descriptor,
                 TexelWGL::Context::Handle handle,
                 vk::PhysicalDevice const &physicalDevice,
-                vk::SurfaceKHR const &windoSurface);
+                vk::SurfaceKHR const &windowSurface);
         virtual ~Context(void);
     };
 } // namespace Vulkan

@@ -18,8 +18,8 @@ TexelWGL::Vulkan::Context::Context(TexelWGL::Context::Descriptor const &descript
                       handle,
                       this->TexelGL::Context::immutableState.renderer),
     TexelGL::Vulkan::Context(physicalDevice,
-                             windowSurface,
-                             this->getVulkanDeviceExtensions())
+                             this->getVulkanDeviceExtensions(),
+                             windowSurface)
 {
 }
 

@@ -56,7 +56,7 @@ std::vector <std::string>
 TexelGL::Vulkan::Device::getVulkanInstanceExtensions(void) const
 {
     auto vulkanInstanceExtensions = std::vector <std::string> {
-        "VK_KHR_surface",
+        VK_KHR_SURFACE_EXTENSION_NAME,
     };
 
     return vulkanInstanceExtensions;
