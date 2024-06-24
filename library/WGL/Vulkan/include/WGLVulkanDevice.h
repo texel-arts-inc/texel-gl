@@ -11,11 +11,17 @@ namespace Vulkan {
         static Device currentDevice;
 
     private:
+        WGL::Instance processInstance = nullptr;
+
+    private:
         Device(void);
 
         virtual std::shared_ptr <TexelWGL::Context>
         createContext(TexelWGL::Context::Descriptor const &descriptor,
                       TexelWGL::Context::Handle handle) const override;
+
+        std::vector <std::string>
+        getVulkanInstanceExtensions(void) const;
 
     public:
         virtual ~Device(void);

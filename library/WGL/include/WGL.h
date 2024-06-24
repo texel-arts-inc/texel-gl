@@ -124,5 +124,6 @@ namespace WGL {
     };
 
     using DeviceContext = void const *;
+    using Instance = void const *;
     using ResourceContext = void const *;
 } // namespace WGL

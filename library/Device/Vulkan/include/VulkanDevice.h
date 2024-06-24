@@ -12,18 +12,21 @@ namespace Vulkan {
         vk::PhysicalDevice const physicalDevice = nullptr;
 
     private:
-        static vk::Instance
-        createDefaultInstance(void);
-
         static size_t
         getDefaultPhysicalDeviceIndex(void);
 
     private:
+        vk::Instance
+        createDefaultInstance(std::vector <std::string> const &vulkanInstanceExtensions);
+
         vk::PhysicalDevice
         createDefaultPhysicalDevice(void) const;
 
+        std::vector <std::string>
+        getVulkanInstanceExtensions(void) const;
+
     protected:
-        Device(void);
+        Device(std::vector <std::string> const &vulkanInstanceExtensions);
 
     public:
         virtual ~Device(void);
