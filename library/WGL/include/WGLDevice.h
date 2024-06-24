@@ -62,8 +62,8 @@ namespace TexelWGL {
                        int32_t pixelFormat,
                        WGL::PixelFormatDescriptor &pixelFormatDescriptor);
 
-        bool
-        swapBuffers(WGL::DeviceContext deviceContext);
+        virtual bool
+        swapBuffers(WGL::DeviceContext deviceContext) = 0;
 
         bool
         swapLayerBuffers(WGL::DeviceContext deviceContext,

@@ -163,12 +163,6 @@ TexelWGL::Device::setPixelFormat(WGL::DeviceContext deviceContext,
 }
 
 bool
-TexelWGL::Device::swapBuffers(WGL::DeviceContext deviceContext)
-{
-    return true;
-}
-
-bool
 TexelWGL::Device::swapLayerBuffers(WGL::DeviceContext deviceContext,
                                    int32_t layer)
 {

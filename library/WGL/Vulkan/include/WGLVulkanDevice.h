@@ -19,6 +19,9 @@ namespace Vulkan {
 
     public:
         virtual ~Device(void);
+
+        virtual bool
+        swapBuffers(WGL::DeviceContext deviceContext) override;
     };
 } // namespace Vulkan
 } // namespace TexelGL

@@ -23,3 +23,9 @@ TexelWGL::Vulkan::Device::createContext(TexelWGL::Context::Descriptor const &des
 TexelWGL::Vulkan::Device::~Device(void)
 {
 }
+
+bool
+TexelWGL::Vulkan::Device::swapBuffers(WGL::DeviceContext deviceContext)
+{
+    return true;
+}
