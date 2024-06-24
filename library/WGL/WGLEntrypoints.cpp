@@ -224,7 +224,15 @@ setPixelFormat(WGL::DeviceContext deviceContext,
                int32_t pixelFormat,
                WGL::PixelFormatDescriptor *pixelFormatDescriptor)
 {
-    return true;
+    if (!pixelFormatDescriptor) {
+        return false;
+
+    }
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
+    return device.setPixelFormat(deviceContext,
+                                 pixelFormat,
+                                 *pixelFormatDescriptor);
 }
 
 int32_t

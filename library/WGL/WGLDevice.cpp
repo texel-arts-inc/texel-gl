@@ -153,3 +153,11 @@ TexelWGL::Device::setCurrentContextHandle(Context::Handle handle)
 
     this->setCurrentContext(context);
 }
+
+bool
+TexelWGL::Device::setPixelFormat(WGL::DeviceContext deviceContext,
+                                 int32_t pixelFormat,
+                                 WGL::PixelFormatDescriptor &pixelFormatDescriptor)
+{
+    return true;
+}

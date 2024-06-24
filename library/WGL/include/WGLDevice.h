@@ -54,5 +54,10 @@ namespace TexelWGL {
 
         void
         setCurrentContextHandle(TexelWGL::Context::Handle handle);
+
+        bool
+        setPixelFormat(WGL::DeviceContext deviceContext,
+                       int32_t pixelFormat,
+                       WGL::PixelFormatDescriptor &pixelFormatDescriptor);
     };
 } // namespace TexelGL
