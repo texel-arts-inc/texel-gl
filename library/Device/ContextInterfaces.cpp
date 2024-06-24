@@ -397,7 +397,7 @@ TexelGL::ContextInterfaceGL30::glGetIntegerv(TexelGL::GL::Enum name,
         break;
 
     case TexelGL::GL::EnumMinorVersion:
-        data = this->context.getMajorVersion();
+        data = this->context.getMinorVersion();
         break;
 
     case TexelGL::GL::EnumNumExtensions:
