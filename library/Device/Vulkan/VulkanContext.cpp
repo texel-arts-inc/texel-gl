@@ -57,8 +57,19 @@ TexelGL::Vulkan::Context::createDevice(std::vector <std::string> const &vulkanDe
         vulkanDeviceExtensionPointers.push_back(vulkanDeviceExtension.c_str());
     }
 
+    auto const queuePriority = 0.0f;
+    auto const queuePriorities = std::vector <float> {
+        queuePriority,
+    };
+    auto const queueCreateInformation = vk::DeviceQueueCreateInfo({},
+                                                                  queueFamilyIndex,
+                                                                  queuePriorities);
+    auto const queueCreateInformationArray = std::vector <vk::DeviceQueueCreateInfo> {
+        queueCreateInformation,
+    };
+
     auto const deviceCreateInformation = vk::DeviceCreateInfo({},
-                                                              {},
+                                                              queueCreateInformationArray,
                                                               {},
                                                               vulkanDeviceExtensionPointers);
     auto const device = physicalDevice.createDevice(deviceCreateInformation);
