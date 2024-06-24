@@ -58,5 +58,8 @@ namespace TexelGL {
 
         std::string const &
         getVendor(void) const;
+
+        bool
+        shareLists(Context &context) const;
     };
 } // namespace TexelGL

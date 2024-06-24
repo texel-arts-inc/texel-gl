@@ -68,3 +68,9 @@ TexelGL::Context::getVendor(void) const
 {
     return this->immutableState.vendor;
 }
+
+bool
+TexelGL::Context::shareLists(Context &context) const
+{
+    return true;
+}

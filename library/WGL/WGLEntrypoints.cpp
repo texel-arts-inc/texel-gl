@@ -239,8 +239,18 @@ int32_t
 shareLists(WGL::ResourceContext source,
            WGL::ResourceContext destination)
 {
-    assert(false);
-    return false;
+    if (!source ||
+        !destination) {
+        return false;
+    }
+
+    auto const sourceHandle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (source));
+    auto const destinationHandle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (destination));
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto const &sourceContext = *device.getContext(sourceHandle);
+    auto &destinationContext = *device.getContext(destinationHandle);
+
+    return sourceContext.shareLists(destinationContext);
 }
 
 int32_t
