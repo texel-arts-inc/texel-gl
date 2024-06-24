@@ -33,6 +33,8 @@ namespace TexelGL {
         ContextInterfaceGL31 gl31;
         ContextInterfaceGL33 gl33;
         ContextInterfaceGL41 gl41;
+        ContextInterfaceGL45 gl45;
+        ContextInterfaceGL46 gl46;
 
     public:
         Context(void);

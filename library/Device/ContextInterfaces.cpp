@@ -496,3 +496,51 @@ void
 TexelGL::ContextInterfaceGL41::glClearDepthf(float d)
 {
 }
+
+void
+TexelGL::ContextInterfaceGL41::glShaderBinary(int32_t count,
+                                              uint32_t const *shaders,
+                                              TexelGL::GL::Enum binaryFormat,
+                                              void const *binary,
+                                              int32_t length)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCreateBuffers(int32_t n,
+                                               uint32_t *buffers)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCreateFramebuffers(int32_t n,
+                                                    uint32_t *framebuffers)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCreateRenderbuffers(int32_t n,
+                                                     uint32_t *renderbuffers)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCreateSamplers(int32_t n,
+                                                uint32_t *samplers)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCreateVertexArrays(int32_t n,
+                                                    uint32_t *arrays)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL46::glSpecializeShader(uint32_t shader,
+                                                  char const *pEntryPoint,
+                                                  uint32_t numSpecializationConstants,
+                                                  uint32_t const *pConstantIndex,
+                                                  uint32_t const *pConstantValue)
+{
+}

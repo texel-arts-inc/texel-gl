@@ -333,5 +333,45 @@ namespace TexelGL {
     public:
         void
         glClearDepthf(float d);
+
+        void
+        glShaderBinary(int32_t count,
+                       uint32_t const *shaders,
+                       TexelGL::GL::Enum binaryFormat,
+                       void const *binary,
+                       int32_t length);
+    };
+
+    class ContextInterfaceGL45: public ContextInterface {
+    public:
+        void
+        glCreateBuffers(int32_t n,
+                        uint32_t *buffers);
+
+        void
+        glCreateFramebuffers(int32_t n,
+                             uint32_t *framebuffers);
+
+        void
+        glCreateRenderbuffers(int32_t n,
+                              uint32_t *renderbuffers);
+
+        void
+        glCreateSamplers(int32_t n,
+                         uint32_t *samplers);
+
+        void
+        glCreateVertexArrays(int32_t n,
+                             uint32_t *arrays);
+    };
+
+    class ContextInterfaceGL46: public ContextInterface {
+    public:
+        void
+        glSpecializeShader(uint32_t shader,
+                           char const *pEntryPoint,
+                           uint32_t numSpecializationConstants,
+                           uint32_t const *pConstantIndex,
+                           uint32_t const *pConstantValue);
     };
 } // namespace TexelGL

@@ -15,7 +15,9 @@ TexelGL::Context::Context(void) :
     gl30(*this),
     gl31(*this),
     gl33(*this),
-    gl41(*this)
+    gl41(*this),
+    gl45(*this),
+    gl46(*this)
 {
 }
 
