@@ -59,5 +59,12 @@ namespace TexelWGL {
         setPixelFormat(WGL::DeviceContext deviceContext,
                        int32_t pixelFormat,
                        WGL::PixelFormatDescriptor &pixelFormatDescriptor);
+
+        bool
+        swapBuffers(WGL::DeviceContext deviceContext);
+
+        bool
+        swapLayerBuffers(WGL::DeviceContext deviceContext,
+                         int32_t layer);
     };
 } // namespace TexelGL

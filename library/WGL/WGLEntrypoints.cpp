@@ -246,14 +246,18 @@ shareLists(WGL::ResourceContext source,
 int32_t
 swapBuffers(WGL::DeviceContext deviceContext)
 {
-    return true;
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
+    return device.swapBuffers(deviceContext);
 }
 
 int32_t
 swapLayerBuffers(WGL::DeviceContext deviceContext,
                  int32_t layer)
 {
-    assert(false);
-    return true;
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
+    return device.swapLayerBuffers(deviceContext,
+                                   layer);
 }
 } // namespace TexelWGL
