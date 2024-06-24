@@ -30,6 +30,10 @@ namespace TexelWGL {
     public:
         virtual ~Device(void);
 
+        int32_t
+        choosePixelFormatWithDescriptor(WGL::DeviceContext deviceContext,
+                                        WGL::PixelFormatDescriptor &pixelFormatDescriptor);
+
         TexelWGL::Context::Handle
         createContextHandle(Context::Descriptor const &descriptor);
 

@@ -37,6 +37,13 @@ TexelWGL::Device::~Device(void)
 {
 }
 
+int32_t
+TexelWGL::Device::choosePixelFormatWithDescriptor(WGL::DeviceContext deviceContext,
+                                                  WGL::PixelFormatDescriptor &pixelFormatDescriptor)
+{
+    return 1;
+}
+
 TexelWGL::Context::Handle
 TexelWGL::Device::createContextHandle(Context::Descriptor const &descriptor)
 {
@@ -70,7 +77,12 @@ TexelWGL::Device::describePixelFormat(WGL::DeviceContext deviceContext,
                                       uint32_t numBytes,
                                       WGL::PixelFormatDescriptor &pixelFormatDescriptor)
 {
-    pixelFormatDescriptor = WGL::PixelFormatDescriptor {
+    pixelFormatDescriptor = WGL::PixelFormatDescriptor{
+        .flags = {
+            .doubleBuffer = true,
+            .drawToWindow = true,
+            .supportOpenGL = true,
+        },
         .colorBits = 24,
         .redBits = 8,
         .redShift = 16,

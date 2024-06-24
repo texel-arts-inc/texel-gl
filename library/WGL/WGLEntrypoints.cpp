@@ -10,8 +10,14 @@ int32_t
 choosePixelFormatWithDescriptor(WGL::DeviceContext deviceContext,
                                 WGL::PixelFormatDescriptor *pixelFormatDescriptor)
 {
+    if (!pixelFormatDescriptor) {
+        return 0;
+    }
 
-    return 1;
+    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
+    return device.choosePixelFormatWithDescriptor(deviceContext,
+                                                  *pixelFormatDescriptor);
 }
 
 int32_t
