@@ -13,12 +13,11 @@ TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &
     auto const applicationVersion = 1;
     auto const engineName = std::string();
     auto const engineVersion = 1;
-    auto const version = VK_API_VERSION_1_1;
     auto const applicationInfo = vk::ApplicationInfo(applicationName.c_str(),
                                                      applicationVersion,
                                                      engineName.c_str(),
                                                      engineVersion,
-                                                     version);
+                                                     this->apiVersion);
     auto const validationLayers = std::vector <char const *> {
         "VK_LAYER_KHRONOS_validation",
     };
@@ -76,4 +75,5 @@ TexelGL::Vulkan::Device::Device(std::vector <std::string> const &vulkanInstanceE
 
 TexelGL::Vulkan::Device::~Device(void)
 {
+    this->instance.destroy();
 }

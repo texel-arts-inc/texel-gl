@@ -291,7 +291,7 @@ void *
 glMapBufferRange(TexelGL::GL::Enum target,
                  intptr_t offset,
                  intptr_t length,
-                 uint32_t access)
+                 TexelGL::GL::MapAccessFlags access)
 {
     auto const &contextPointer = TexelGL::Device::currentContext;
 

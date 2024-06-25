@@ -182,6 +182,9 @@ namespace TexelGL {
         void
         glUniform1i(int32_t location,
                     int32_t v0);
+
+        void
+        glUseProgram(uint32_t program);
     };
 
     class ContextInterfaceGL30: public ContextInterface {
@@ -268,7 +271,7 @@ namespace TexelGL {
         glMapBufferRange(TexelGL::GL::Enum target,
                          intptr_t offset,
                          intptr_t length,
-                         uint32_t access);
+                         TexelGL::GL::MapAccessFlags access);
 
         void
         glRenderbufferStorage(TexelGL::GL::Enum target,

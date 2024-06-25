@@ -21,6 +21,9 @@ TexelGL::Context::Context(std::string const &deviceName) :
     gl45(*this),
     gl46(*this)
 {
+    static auto constexpr maxUniformBuffers = 16;
+
+    this->bindingState.uniformBuffers.resize(maxUniformBuffers);
 }
 
 TexelGL::Context::~Context(void)
@@ -71,7 +74,7 @@ TexelGL::Context::getBinding(GL::Enum target) const
         return this->objectTable.getObject(bindingState.elementArrayBuffer);
 
     case TexelGL::GL::EnumUniformBuffer:
-        return this->objectTable.getObject(bindingState.elementArrayBuffer);
+        return this->objectTable.getObject(bindingState.uniformBuffers.front());
 
     default:
         return nullptr;
@@ -141,6 +144,10 @@ TexelGL::Context::setBinding(GL::Enum target,
 
     case TexelGL::GL::EnumElementArrayBuffer:
         bindingState.elementArrayBuffer = id;
+        break;
+
+    case TexelGL::GL::EnumUniformBuffer:
+        bindingState.uniformBuffers.front() = id;
         break;
 
     default:

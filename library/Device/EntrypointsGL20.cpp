@@ -268,3 +268,17 @@ glUniform1i(int32_t location,
     context.gl20.glUniform1i(location,
                              v0);
 }
+
+void
+glUseProgram(uint32_t program)
+{
+    auto const &contextPointer = TexelGL::Device::currentContext;
+
+    if (!contextPointer) {
+        return;
+    }
+
+    auto &context = *contextPointer;
+
+    context.gl20.glUseProgram(program);
+}

@@ -161,6 +161,16 @@ TexelGL::ContextInterfaceGL15::glBufferData(TexelGL::GL::Enum target,
 uint8_t
 TexelGL::ContextInterfaceGL15::glUnmapBuffer(TexelGL::GL::Enum target)
 {
+    auto const &context = this->context;
+    auto const bufferPointer = std::dynamic_pointer_cast <Buffer> (context.getBinding(target));
+
+    if (!bufferPointer) {
+        return false;
+    }
+
+    auto &buffer = *bufferPointer;
+
+    buffer.unmapBuffer();
     return true;
 }
 
@@ -286,6 +296,11 @@ TexelGL::ContextInterfaceGL20::glShaderSource(uint32_t shader,
 void
 TexelGL::ContextInterfaceGL20::glUniform1i(int32_t location,
                                            int32_t v0)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL20::glUseProgram(uint32_t program)
 {
 }
 
@@ -430,9 +445,21 @@ void *
 TexelGL::ContextInterfaceGL30::glMapBufferRange(TexelGL::GL::Enum target,
                                                 intptr_t offset,
                                                 intptr_t length,
-                                                uint32_t access)
+                                                TexelGL::GL::MapAccessFlags access)
 {
-    return nullptr;
+    auto const &context = this->context;
+    auto const bufferPointer = std::dynamic_pointer_cast <Buffer> (context.getBinding(target));
+
+    if (!bufferPointer) {
+        return nullptr;
+    }
+
+    auto &buffer = *bufferPointer;
+    auto const mapping = buffer.mapBuffer(offset,
+                                          length,
+                                          access);
+
+    return mapping.data();
 }
 
 void

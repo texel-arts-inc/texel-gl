@@ -66,3 +66,6 @@ glShaderSource(uint32_t shader,
 EXPORT_API void
 glUniform1i(int32_t location,
             int32_t v0);
+
+EXPORT_API void
+glUseProgram(uint32_t program);

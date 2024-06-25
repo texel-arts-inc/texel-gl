@@ -84,7 +84,7 @@ EXPORT_API void *
 glMapBufferRange(TexelGL::GL::Enum target,
                  intptr_t offset,
                  intptr_t length,
-                 uint32_t access);
+                 TexelGL::GL::MapAccessFlags access);
 
 EXPORT_API void
 glRenderbufferStorage(TexelGL::GL::Enum target,

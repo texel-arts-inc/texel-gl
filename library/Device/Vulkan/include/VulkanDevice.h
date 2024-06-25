@@ -7,6 +7,7 @@ namespace TexelGL {
 namespace Vulkan {
     class Device: public virtual TexelGL::Device {
     protected:
+        uint32_t apiVersion = VK_API_VERSION_1_1;
         vk::Instance const instance = nullptr;
         size_t physicalDeviceIndex = 0;
         vk::PhysicalDevice const physicalDevice = nullptr;
