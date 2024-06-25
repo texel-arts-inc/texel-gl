@@ -19,16 +19,15 @@ namespace Vulkan {
         static std::string
         getPhysicalDeviceName(vk::PhysicalDevice const &physicalDevice);
 
-    protected:
-        size_t
-        getQueueFamilyIndex(void) const;
-
     private:
         vk::Device
         createDevice(std::vector <std::string> const &vulkanDeviceExtensions) const;
 
         vk::SwapchainKHR
         createSwapchain(uint32_t queueFamilyIndex) const;
+
+        size_t
+        getQueueFamilyIndex(void) const;
 
         std::vector <std::string>
         getVulkanDeviceExtensions(void) const;
@@ -37,6 +36,9 @@ namespace Vulkan {
         Context(vk::PhysicalDevice const &physicalDevice,
                 std::vector <std::string> const &vulkanDeviceExtensions,
                 vk::SurfaceKHR const &windowSurface);
+
+        virtual std::shared_ptr <TexelGL::Buffer>
+        createBuffer(void) override;
 
     public:
         virtual ~Context(void);

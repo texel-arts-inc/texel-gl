@@ -1,3 +1,4 @@
+#include "VulkanBuffer.h"
 #include "VulkanContext.h"
 
 std::string
@@ -6,39 +7,6 @@ TexelGL::Vulkan::Context::getPhysicalDeviceName(vk::PhysicalDevice const &physic
     auto const &properties = physicalDevice.getProperties();
 
     return std::string(&properties.deviceName[0]);
-}
-
-size_t
-TexelGL::Vulkan::Context::getQueueFamilyIndex(void) const
-{
-    auto const &physicalDevice = this->physicalDevice;
-    auto const queueFamilyProperties = physicalDevice.getQueueFamilyProperties();
-    auto graphicsQueueFamilyIndex = queueFamilyProperties.size();
-
-    for (auto i = size_t(0);
-         i < queueFamilyProperties.size();
-         ++i) {
-        auto const &queueFamilyProperty = queueFamilyProperties[i];
-        auto const &flags = queueFamilyProperty.queueFlags;
-        auto const graphicsSupported = flags & vk::QueueFlagBits::eGraphics;
-        auto const presentSupported = physicalDevice.getSurfaceSupportKHR(i,
-                                                                          windowSurface);
-
-        if (graphicsSupported &&
-            presentSupported) {
-            graphicsQueueFamilyIndex = i;
-            break;
-        }
-    }
-
-    if (graphicsQueueFamilyIndex ==
-        queueFamilyProperties.size()) {
-        assert(false &&
-               "Failed to find a suitable graphics and presentation combination.");
-        return -1;
-    }
-
-    return graphicsQueueFamilyIndex;
 }
 
 vk::Device
@@ -134,6 +102,39 @@ TexelGL::Vulkan::Context::createSwapchain(uint32_t queueFamilyIndex) const
     return swapchain;
 }
 
+size_t
+TexelGL::Vulkan::Context::getQueueFamilyIndex(void) const
+{
+    auto const &physicalDevice = this->physicalDevice;
+    auto const queueFamilyProperties = physicalDevice.getQueueFamilyProperties();
+    auto graphicsQueueFamilyIndex = queueFamilyProperties.size();
+
+    for (auto i = size_t(0);
+         i < queueFamilyProperties.size();
+         ++i) {
+        auto const &queueFamilyProperty = queueFamilyProperties[i];
+        auto const &flags = queueFamilyProperty.queueFlags;
+        auto const graphicsSupported = flags & vk::QueueFlagBits::eGraphics;
+        auto const presentSupported = physicalDevice.getSurfaceSupportKHR(i,
+                                                                          windowSurface);
+
+        if (graphicsSupported &&
+            presentSupported) {
+            graphicsQueueFamilyIndex = i;
+            break;
+        }
+    }
+
+    if (graphicsQueueFamilyIndex ==
+        queueFamilyProperties.size()) {
+        assert(false &&
+               "Failed to find a suitable graphics and presentation combination.");
+        return -1;
+    }
+
+    return graphicsQueueFamilyIndex;
+}
+
 std::vector <std::string>
 TexelGL::Vulkan::Context::getVulkanDeviceExtensions(void) const
 {
@@ -160,4 +161,10 @@ TexelGL::Vulkan::Context::Context(vk::PhysicalDevice const &physicalDevice,
 
 TexelGL::Vulkan::Context::~Context(void)
 {
+}
+
+std::shared_ptr <TexelGL::Buffer>
+TexelGL::Vulkan::Context::createBuffer(void)
+{
+    return std::make_shared <Vulkan::Buffer> ();
 }

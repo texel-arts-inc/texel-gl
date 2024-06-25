@@ -1,10 +1,14 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 #include "ContextInterfaces.h"
+#include "ObjectTable.h"
 
 namespace TexelGL {
+    class Buffer;
+
     class Context {
     private:
         struct ImmutableState {
@@ -21,8 +25,16 @@ namespace TexelGL {
             Extensions extensions = {};
         };
 
+        struct BindingState {
+            uint32_t arrayBuffer = 0;
+            uint32_t elementArrayBuffer = 0;
+            std::vector <uint32_t> uniformBuffers = {};
+        };
+
     protected:
         ImmutableState const immutableState = {};
+        BindingState bindingState = {};
+        ObjectTable objectTable = {};
 
     public:
         ContextInterfaceGL10 gl10;
@@ -36,6 +48,10 @@ namespace TexelGL {
         ContextInterfaceGL45 gl45;
         ContextInterfaceGL46 gl46;
 
+    protected:
+        virtual std::shared_ptr <Buffer>
+        createBuffer(void) = 0;
+
     public:
         Context(std::string const &deviceName);
 
@@ -44,8 +60,21 @@ namespace TexelGL {
         Context &
         operator = (Context const &other);
 
+        uint32_t
+        allocateBuffer(void);
+
         bool
         copyTo(Context &context) const;
+
+        void
+        deallocateBuffer(uint32_t id);
+
+        std::shared_ptr <Object>
+        getBinding(GL::Enum target) const;
+
+        std::shared_ptr <Object>
+        getBinding(GL::Enum target,
+                   size_t index) const;
 
         ImmutableState::Extensions const &
         getExtensions(void) const;
@@ -61,6 +90,10 @@ namespace TexelGL {
 
         std::string const &
         getVendor(void) const;
+
+        void
+        setBinding(GL::Enum target,
+                   uint32_t id);
 
         bool
         shareLists(Context &context) const;

@@ -1,4 +1,5 @@
 #include <cassert>
+#include "Buffer.h"
 #include "Context.h"
 #include "ContextInterfaces.h"
 
@@ -138,6 +139,8 @@ void
 TexelGL::ContextInterfaceGL15::glBindBuffer(TexelGL::GL::Enum target,
                                             uint32_t buffer)
 {
+    this->context.setBinding(target,
+                             buffer);
 }
 
 void
@@ -146,6 +149,13 @@ TexelGL::ContextInterfaceGL15::glBufferData(TexelGL::GL::Enum target,
                                             void const *data,
                                             TexelGL::GL::Enum usage)
 {
+    auto const buffer = std::dynamic_pointer_cast <Buffer> (this->context.getBinding(target));
+
+    if (!buffer) {
+        return;
+    }
+
+    buffer->allocateBytes(size);
 }
 
 uint8_t
@@ -356,6 +366,13 @@ void
 TexelGL::ContextInterfaceGL30::glGenBuffers(int32_t n,
                                             uint32_t *buffers)
 {
+    for (auto i = size_t(0);
+         i < n;
+         ++i) {
+        auto const id = this->context.allocateBuffer();
+
+        buffers[i] = id;
+    }
 }
 
 void
@@ -510,6 +527,13 @@ void
 TexelGL::ContextInterfaceGL45::glCreateBuffers(int32_t n,
                                                uint32_t *buffers)
 {
+    for (auto i = size_t(0);
+         i < n;
+         ++i) {
+        auto const id = this->context.allocateBuffer();
+
+        buffers[i] = id;
+    }
 }
 
 void
