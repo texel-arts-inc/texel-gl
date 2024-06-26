@@ -28,6 +28,7 @@ TexelGL::Context::Context(std::string const &deviceName) :
 
 TexelGL::Context::~Context(void)
 {
+    this->objectTable.reset();
 }
 
 TexelGL::Context &

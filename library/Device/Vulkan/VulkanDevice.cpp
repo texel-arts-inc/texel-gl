@@ -6,7 +6,7 @@ TexelGL::Vulkan::Device::getDefaultPhysicalDeviceIndex(void)
     return 0;
 }
 
-vk::Instance
+std::shared_ptr <vk::raii::Instance>
 TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &vulkanInstanceExtensions)
 {
     auto const applicationName = std::string();
@@ -33,23 +33,24 @@ TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &
         vulkanInstanceExtensionPointers.push_back(vulkanInstanceExtension.c_str());
     }
 
-    auto const instanceCreateInfo = vk::InstanceCreateInfo({},
-                                                           &applicationInfo,
-                                                           validationLayers,
-                                                           vulkanInstanceExtensionPointers);
-    auto const instance = vk::createInstance(instanceCreateInfo);
+    auto const instanceCreateInformation = vk::InstanceCreateInfo({},
+                                                                  &applicationInfo,
+                                                                  validationLayers,
+                                                                  vulkanInstanceExtensionPointers);
+    auto const instance = std::make_shared <vk::raii::Instance> (this->context,
+                                                                 instanceCreateInformation);
 
     return instance;
 }
 
-vk::PhysicalDevice
+std::shared_ptr <vk::raii::PhysicalDevice>
 TexelGL::Vulkan::Device::createDefaultPhysicalDevice(void) const
 {
-    auto const &physicalDevices = this->instance.enumeratePhysicalDevices();
-    auto physicalDevice = vk::PhysicalDevice(nullptr);
+    auto const &physicalDevices = this->instance->enumeratePhysicalDevices();
+    auto physicalDevice = std::shared_ptr <vk::raii::PhysicalDevice> (nullptr);
 
     if (!physicalDevices.empty()) {
-        physicalDevice = physicalDevices[this->physicalDeviceIndex];
+        physicalDevice = std::make_shared <vk::raii::PhysicalDevice> (physicalDevices[this->physicalDeviceIndex]);
     }
 
     return physicalDevice;
@@ -67,6 +68,7 @@ TexelGL::Vulkan::Device::getVulkanInstanceExtensions(void) const
 
 TexelGL::Vulkan::Device::Device(std::vector <std::string> const &vulkanInstanceExtensions) :
     TexelGL::Device::Device(),
+    apiVersion(context.enumerateInstanceVersion()),
     instance(Device::createDefaultInstance(vulkanInstanceExtensions)),
     physicalDeviceIndex(Device::getDefaultPhysicalDeviceIndex()),
     physicalDevice(this->createDefaultPhysicalDevice())
@@ -75,5 +77,4 @@ TexelGL::Vulkan::Device::Device(std::vector <std::string> const &vulkanInstanceE
 
 TexelGL::Vulkan::Device::~Device(void)
 {
-    this->instance.destroy();
 }

@@ -1,20 +1,20 @@
 #pragma once
 
-#include <vulkan/vulkan.hpp>
 #include "Object.h"
+#include "VulkanInterface.h"
 
 namespace TexelGL {
 namespace Vulkan {
     class RenderPass: public TexelGL::Object {
     private:
-        vk::RenderPass object = nullptr;
+        vk::raii::RenderPass object = nullptr;
 
     public:
-        RenderPass(vk::RenderPass object);
+        RenderPass(vk::raii::RenderPass &&object);
 
         virtual ~RenderPass(void);
 
-        operator vk::RenderPass const &() const;
+        operator vk::RenderPass() const;
     };
 } // namespace Vulkan
 } // TexelGL

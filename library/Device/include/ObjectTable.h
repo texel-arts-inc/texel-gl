@@ -26,5 +26,8 @@ public:
 
     std::shared_ptr <Object>
     getObject(uint32_t id) const;
+
+    void
+    reset(void);
 };
 } // namespace TexelGL

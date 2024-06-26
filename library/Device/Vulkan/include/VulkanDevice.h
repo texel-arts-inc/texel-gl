@@ -1,26 +1,27 @@
 #pragma once
 
 #include "Device.h"
-#include <vulkan/vulkan.hpp>
+#include "VulkanInterface.h"
 
 namespace TexelGL {
 namespace Vulkan {
     class Device: public virtual TexelGL::Device {
     protected:
+        vk::raii::Context context = {};
         uint32_t apiVersion = VK_API_VERSION_1_1;
-        vk::Instance const instance = nullptr;
+        std::shared_ptr <vk::raii::Instance> instance = nullptr;
         size_t physicalDeviceIndex = 0;
-        vk::PhysicalDevice const physicalDevice = nullptr;
+        std::shared_ptr <vk::raii::PhysicalDevice> physicalDevice = nullptr;
 
     private:
         static size_t
         getDefaultPhysicalDeviceIndex(void);
 
     private:
-        vk::Instance
+        std::shared_ptr <vk::raii::Instance>
         createDefaultInstance(std::vector <std::string> const &vulkanInstanceExtensions);
 
-        vk::PhysicalDevice
+        std::shared_ptr <vk::raii::PhysicalDevice>
         createDefaultPhysicalDevice(void) const;
 
         std::vector <std::string>

@@ -12,9 +12,9 @@ TexelWGL::Vulkan::Context::getVulkanDeviceExtensions(void) const
 TexelWGL::Vulkan::Context::Context(TexelWGL::Context::Descriptor const &descriptor,
                                    TexelWGL::Context::Handle handle,
                                    uint32_t apiVersion,
-                                   vk::Instance const &instance,
-                                   vk::PhysicalDevice const &physicalDevice,
-                                   vk::SurfaceKHR const &windowSurface) :
+                                   std::shared_ptr <vk::raii::Instance> const &instance,
+                                   std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice,
+                                   vk::raii::SurfaceKHR &&windowSurface) :
     TexelGL::Context::Context(Context::getPhysicalDeviceName(physicalDevice)),
     TexelWGL::Context(descriptor,
                       handle,
@@ -23,7 +23,7 @@ TexelWGL::Vulkan::Context::Context(TexelWGL::Context::Descriptor const &descript
                              instance,
                              physicalDevice,
                              this->getVulkanDeviceExtensions(),
-                             windowSurface)
+                             std::move(windowSurface))
 {
 }
 

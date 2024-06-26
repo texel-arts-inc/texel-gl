@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vk_mem_alloc.h>
-#include <vulkan/vulkan.hpp>
 #include "Context.h"
+#include "VulkanInterface.h"
 
 namespace TexelGL {
 namespace Vulkan {
@@ -15,37 +14,28 @@ namespace Vulkan {
 
     class Context: public virtual TexelGL::Context {
     protected:
-        vk::PhysicalDevice const physicalDevice = nullptr;
+        std::shared_ptr <vk::raii::PhysicalDevice> physicalDevice = nullptr;
         vk::PhysicalDeviceProperties const physicalDeviceProperties = {};
         vk::PhysicalDeviceFeatures const physicalDeviceFeatures = {};
-        vk::SurfaceKHR const windowSurface = nullptr;
+        vk::raii::SurfaceKHR const &windowSurface;
         std::pair <vk::Extent2D,
                    uint32_t> swapchainSurfaceExtentAndImageCount = {};
         std::pair <vk::Format,
                    vk::ColorSpaceKHR> swapchainSurfaceFormatAndColorSpace = {};
         size_t queueFamilyIndex = 0;
-        vk::Device const device = nullptr;
+        vk::raii::Device const device = nullptr;
         uint32_t swapchainId = 0;
-        std::vector <uint32_t> swapchainImageIds = {};
-        std::vector <uint32_t> swapchainImageViewIds = {};
         uint32_t swapchainRenderPassId = 0;
         uint32_t swapchainFramebufferId = 0;
         VmaAllocator memoryAllocator = nullptr;
 
     protected:
         static std::string
-        getPhysicalDeviceName(vk::PhysicalDevice const &physicalDevice);
+        getPhysicalDeviceName(std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice);
 
     private:
-        vk::Device
+        vk::raii::Device
         createDevice(std::vector <std::string> const &vulkanDeviceExtensions) const;
-
-        std::vector <std::shared_ptr <Image>>
-        createImages(std::shared_ptr <Swapchain> const &swapchain) const;
-
-        std::vector <std::shared_ptr <ImageView>>
-        createImageViews(std::vector <std::shared_ptr <Image>> const &images,
-                         vk::Format format) const;
 
         std::shared_ptr <Framebuffer>
         createFramebuffer(size_t width,
@@ -72,10 +62,10 @@ namespace Vulkan {
 
     protected:
         Context(uint32_t apiVersion,
-                vk::Instance const &instance,
-                vk::PhysicalDevice const &physicalDevice,
+                std::shared_ptr <vk::raii::Instance> const &instance,
+                std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice,
                 std::vector <std::string> const &vulkanDeviceExtensions,
-                vk::SurfaceKHR const &windowSurface);
+                vk::raii::SurfaceKHR &&windowSurface);
 
         virtual std::shared_ptr <TexelGL::Buffer>
         createBuffer(void) override;

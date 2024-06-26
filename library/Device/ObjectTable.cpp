@@ -41,7 +41,8 @@ TexelGL::ObjectTable::deallocateObject(uint32_t id)
         return;
     }
 
-    if (!objectList[id]) {
+    if (!objectList[id -
+                    1]) {
         return;
     }
 
@@ -63,4 +64,10 @@ TexelGL::ObjectTable::getObject(uint32_t id) const
 
     return objectList[id -
                       1];
+}
+
+void
+TexelGL::ObjectTable::reset(void)
+{
+    this->objectList.clear();
 }

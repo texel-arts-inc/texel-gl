@@ -1,20 +1,20 @@
 #pragma once
 
-#include <vulkan/vulkan.hpp>
 #include "Object.h"
+#include "VulkanInterface.h"
 
 namespace TexelGL {
 namespace Vulkan {
     class ImageView: public TexelGL::Object {
     private:
-        vk::ImageView object = nullptr;
+        vk::raii::ImageView object = nullptr;
 
     public:
-        ImageView(vk::ImageView object);
+        ImageView(vk::raii::ImageView &&object);
 
         virtual ~ImageView(void);
 
-        operator vk::ImageView const &() const;
+        operator vk::ImageView() const;
     };
 } // namespace Vulkan
 } // TexelGL

@@ -1,20 +1,20 @@
 #pragma once
 
-#include <vulkan/vulkan.hpp>
 #include "Object.h"
+#include "VulkanInterface.h"
 
 namespace TexelGL {
 namespace Vulkan {
     class Framebuffer: public TexelGL::Object {
     private:
-        vk::Framebuffer object = nullptr;
+        vk::raii::Framebuffer object = nullptr;
 
     public:
-        Framebuffer(vk::Framebuffer object);
+        Framebuffer(vk::raii::Framebuffer &&object);
 
         virtual ~Framebuffer(void);
 
-        operator vk::Framebuffer const &() const;
+        operator vk::Framebuffer() const;
     };
 } // namespace Vulkan
 } // TexelGL

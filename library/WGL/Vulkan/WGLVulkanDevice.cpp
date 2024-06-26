@@ -1,10 +1,7 @@
-#define NOMINMAX 1
-#define VK_USE_PLATFORM_WIN32_KHR 1
 
+#include "VulkanInterface.h"
 #include "WGLVulkanContext.h"
 #include "WGLVulkanDevice.h"
-#include <windows.h>
-#include <vulkan/vulkan_win32.h>
 
 TexelWGL::Device &TexelWGL::Device::currentDevice = TexelWGL::Vulkan::Device::currentDevice;
 TexelWGL::Vulkan::Device TexelWGL::Vulkan::Device::currentDevice = {};
@@ -26,14 +23,14 @@ TexelWGL::Vulkan::Device::createContext(TexelWGL::Context::Descriptor const &des
     auto const surfaceCreateInformation = vk::Win32SurfaceCreateInfoKHR({},
                                                                         processInstance,
                                                                         windowHandle);
-    auto const windowSurface = this->instance.createWin32SurfaceKHR(surfaceCreateInformation);
+    auto windowSurface = this->instance->createWin32SurfaceKHR(surfaceCreateInformation);
 
     return std::make_shared <TexelWGL::Vulkan::Context> (descriptor,
                                                          handle,
                                                          this->apiVersion,
                                                          this->instance,
                                                          this->physicalDevice,
-                                                         windowSurface);
+                                                         std::move(windowSurface));
 }
 
 std::vector <std::string>

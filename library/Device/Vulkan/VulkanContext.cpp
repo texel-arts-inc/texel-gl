@@ -7,17 +7,17 @@
 #include "VulkanSwapchain.h"
 
 std::string
-TexelGL::Vulkan::Context::getPhysicalDeviceName(vk::PhysicalDevice const &physicalDevice)
+TexelGL::Vulkan::Context::getPhysicalDeviceName(std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice)
 {
-    auto const &properties = physicalDevice.getProperties();
+    auto const &properties = physicalDevice->getProperties();
 
     return std::string(&properties.deviceName[0]);
 }
 
-vk::Device
+vk::raii::Device
 TexelGL::Vulkan::Context::createDevice(std::vector <std::string> const &vulkanDeviceExtensions) const
 {
-    auto const &physicalDevice = this->physicalDevice;
+    auto &physicalDevice = *this->physicalDevice;
     auto const queueFamilyIndex = this->queueFamilyIndex;
     auto const defaultVulkanDeviceExtensions = this->getVulkanDeviceExtensions();
     auto vulkanDeviceExtensionPointers = std::vector <char const *> ();
@@ -45,47 +45,9 @@ TexelGL::Vulkan::Context::createDevice(std::vector <std::string> const &vulkanDe
                                                               queueCreateInformationArray,
                                                               {},
                                                               vulkanDeviceExtensionPointers);
-    auto const device = physicalDevice.createDevice(deviceCreateInformation);
+    auto device = physicalDevice.createDevice(deviceCreateInformation);
 
     return device;
-}
-
-std::vector <std::shared_ptr <TexelGL::Vulkan::Image>>
-TexelGL::Vulkan::Context::createImages(std::shared_ptr <Swapchain> const &swapchain) const
-{
-    auto const images = this->device.getSwapchainImagesKHR(*swapchain);
-    auto vulkanImages = std::vector <std::shared_ptr <Image>> ();
-
-    for (auto &image: images) {
-        vulkanImages.push_back(std::make_shared <Image> (image));
-    }
-
-    return vulkanImages;
-}
-
-std::vector <std::shared_ptr <TexelGL::Vulkan::ImageView>>
-TexelGL::Vulkan::Context::createImageViews(std::vector <std::shared_ptr <Image>> const &images,
-                                           vk::Format format) const
-{
-    auto vulkanImageViews = std::vector <std::shared_ptr <ImageView>> ();
-
-    for (auto const &image: images) {
-        auto const imageViewCreateInformation = vk::ImageViewCreateInfo({},
-                                                                        *image,
-                                                                        vk::ImageViewType::e2D,
-                                                                        format,
-                                                                        {},
-                                                                        { vk::ImageAspectFlagBits::eColor,
-                                                                          0,
-                                                                          1,
-                                                                          0,
-                                                                          1 });
-        auto imageView = this->device.createImageView(imageViewCreateInformation);
-
-        vulkanImageViews.push_back(std::make_shared <ImageView> (imageView));
-    }
-
-    return vulkanImageViews;
 }
 
 std::shared_ptr <TexelGL::Vulkan::Framebuffer>
@@ -101,13 +63,13 @@ TexelGL::Vulkan::Context::createFramebuffer(size_t width,
     }
 
     auto const framebufferCreateInfo = vk::FramebufferCreateInfo(vk::FramebufferCreateFlags(),
-                                                                 *renderPass,
+                                                                 static_cast <vk::RenderPass> (*renderPass),
                                                                  imageViews,
                                                                  width,
                                                                  height,
                                                                  1);
-    auto const framebuffer = this->device.createFramebuffer(framebufferCreateInfo);
-    auto const vulkanFramebuffer = std::make_shared <Framebuffer> (framebuffer);
+    auto framebuffer = this->device.createFramebuffer(framebufferCreateInfo);
+    auto const vulkanFramebuffer = std::make_shared <Framebuffer> (std::move(framebuffer));
 
     return vulkanFramebuffer;
 }
@@ -116,6 +78,7 @@ std::shared_ptr <TexelGL::Vulkan::Swapchain>
 TexelGL::Vulkan::Context::createSwapchain(uint32_t queueFamilyIndex) const
 {
     auto const &windowSurface = this->windowSurface;
+    auto &physicalDevice = *this->physicalDevice;
     auto const surfaceCapabilities = physicalDevice.getSurfaceCapabilitiesKHR(windowSurface);
     auto const defaultImageCount = uint32_t(3);
     auto const imageCount = std::clamp(defaultImageCount,
@@ -145,8 +108,10 @@ TexelGL::Vulkan::Context::createSwapchain(uint32_t queueFamilyIndex) const
                                                                        swapchainPresentMode,
                                                                        false,
                                                                        nullptr);
-    auto const swapchain = this->device.createSwapchainKHR(swapchainCreateInformation);
-    auto const vulkanSwapchain = std::make_shared <Swapchain> (swapchain);
+    auto swapchain = this->device.createSwapchainKHR(swapchainCreateInformation);
+    auto const vulkanSwapchain = std::make_shared <Swapchain> (this->device,
+                                                               std::move(swapchain),
+                                                               surfaceFormat);
 
     return vulkanSwapchain;
 }
@@ -154,7 +119,7 @@ TexelGL::Vulkan::Context::createSwapchain(uint32_t queueFamilyIndex) const
 size_t
 TexelGL::Vulkan::Context::getQueueFamilyIndex(void) const
 {
-    auto const &physicalDevice = this->physicalDevice;
+    auto const &physicalDevice = *this->physicalDevice;
     auto const queueFamilyProperties = physicalDevice.getQueueFamilyProperties();
     auto graphicsQueueFamilyIndex = queueFamilyProperties.size();
 
@@ -189,6 +154,7 @@ std::pair <vk::Extent2D,
 TexelGL::Vulkan::Context::getSwapchainSurfaceExtentAndImageCount(void) const
 {
     auto const &windowSurface = this->windowSurface;
+    auto &physicalDevice = *this->physicalDevice;
     auto const surfaceCapabilities = physicalDevice.getSurfaceCapabilitiesKHR(windowSurface);
     auto const defaultImageCount = uint32_t(3);
     auto const imageCount = std::clamp(defaultImageCount,
@@ -205,7 +171,7 @@ std::pair <vk::Format,
 TexelGL::Vulkan::Context::getSwapchainSurfaceFormatAndColorSpace(void) const
 {
     auto const &windowSurface = this->windowSurface;
-    auto const &physicalDevice = this->physicalDevice;
+    auto const &physicalDevice = *this->physicalDevice;
     auto const surfaceFormats = physicalDevice.getSurfaceFormatsKHR(windowSurface);
     auto surfaceFormat = vk::Format::eUndefined;
     auto colorSpace = vk::ColorSpaceKHR::eSrgbNonlinear;
@@ -242,15 +208,15 @@ TexelGL::Vulkan::Context::getVulkanDeviceExtensions(void) const
 }
 
 TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
-                                  vk::Instance const &instance,
-                                  vk::PhysicalDevice const &physicalDevice,
+                                  std::shared_ptr <vk::raii::Instance> const &instance,
+                                  std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice,
                                   std::vector <std::string> const &vulkanDeviceExtensions,
-                                  vk::SurfaceKHR const &windowSurface) :
+                                  vk::raii::SurfaceKHR &&windowSurface) :
     TexelGL::Context::Context(Context::getPhysicalDeviceName(physicalDevice)),
     physicalDevice(physicalDevice),
-    physicalDeviceProperties(this->physicalDevice.getProperties()),
-    physicalDeviceFeatures(this->physicalDevice.getFeatures()),
-    windowSurface(windowSurface),
+    physicalDeviceProperties(this->physicalDevice->getProperties()),
+    physicalDeviceFeatures(this->physicalDevice->getFeatures()),
+    windowSurface(std::move(windowSurface)),
     swapchainSurfaceExtentAndImageCount(this->getSwapchainSurfaceExtentAndImageCount()),
     swapchainSurfaceFormatAndColorSpace(this->getSwapchainSurfaceFormatAndColorSpace()),
     queueFamilyIndex(this->getQueueFamilyIndex()),
@@ -258,11 +224,9 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
 {
     auto &objectTable = this->objectTable;
     auto const swapchain = this->createSwapchain(queueFamilyIndex);
-    auto const swapchainImages = this->createImages(swapchain);
     auto const swapchainSurfaceExtent = this->swapchainSurfaceExtentAndImageCount.first;
     auto const swapchainSurfaceFormat = this->swapchainSurfaceFormatAndColorSpace.first;
-    auto const swapchainImageViews = this->createImageViews(swapchainImages,
-                                                            swapchainSurfaceFormat);
+    auto const swapchainImageViews = swapchain->getImageViews();
     auto const colorImageLoadOperation = vk::AttachmentLoadOp::eClear;
     auto const colorImageFinalLayout = vk::ImageLayout::ePresentSrcKHR;
     auto const swapchainColorAttachmentDescription = vk::AttachmentDescription({},
@@ -274,7 +238,7 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
                                                                                vk::AttachmentStoreOp::eDontCare,
                                                                                vk::ImageLayout::eUndefined,
                                                                                colorImageFinalLayout);
-    auto const swapchainAttachmentDescriptions = std::vector <vk::AttachmentDescription> (swapchainImages.size(),
+    auto const swapchainAttachmentDescriptions = std::vector <vk::AttachmentDescription> (swapchainImageViews.size(),
                                                                                           swapchainColorAttachmentDescription);
     auto const swapchainColorAttachment = vk::AttachmentReference(0,
                                                                   vk::ImageLayout::eColorAttachmentOptimal);
@@ -292,22 +256,6 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
                                                               swapchainRenderPass,
                                                               swapchainImageViews);
     auto const swapchainId = objectTable.allocateObject(swapchain);
-    auto swapchainImageIds = std::vector <uint32_t> ();
-
-    for (auto const &swapchainImage: swapchainImages) {
-        auto const id = objectTable.allocateObject(swapchainImage);
-
-        swapchainImageIds.push_back(id);
-    }
-
-    auto swapchainImageViewIds = std::vector <uint32_t> ();
-
-    for (auto const &swapchainImageView: swapchainImageViews) {
-        auto const id = objectTable.allocateObject(swapchainImageView);
-
-        swapchainImageViewIds.push_back(id);
-    }
-
     auto const swapchainFramebufferId = objectTable.allocateObject(swapchainFramebuffer);
 
     auto const vulkanFunctions = VmaVulkanFunctions {
@@ -317,10 +265,10 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
 
     auto const allocatorCreateInfo = VmaAllocatorCreateInfo {
         .flags = VMA_ALLOCATOR_CREATE_EXT_MEMORY_BUDGET_BIT,
-        .physicalDevice = this->physicalDevice,
-        .device = this->device,
+        .physicalDevice = static_cast <vk::PhysicalDevice> (*this->physicalDevice),
+        .device = static_cast <vk::Device> (this->device),
         .pVulkanFunctions = &vulkanFunctions,
-        .instance = instance,
+        .instance = static_cast <vk::Instance> (*instance),
         .vulkanApiVersion = apiVersion,
     };
 
@@ -330,8 +278,6 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
                        &memoryAllocator);
 
     this->swapchainId = swapchainId;
-    this->swapchainImageIds = std::move(swapchainImageIds);
-    this->swapchainImageViewIds = std::move(swapchainImageViewIds);
     this->swapchainRenderPassId = swapchainRenderPassId;
     this->swapchainFramebufferId = swapchainFramebufferId;
     this->memoryAllocator = memoryAllocator;
@@ -339,6 +285,10 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
 
 TexelGL::Vulkan::Context::~Context(void)
 {
+    this->objectTable.deallocateObject(this->swapchainFramebufferId);
+    this->objectTable.deallocateObject(this->swapchainId);
+    this->objectTable.deallocateObject(this->swapchainRenderPassId);
+
     if (this->memoryAllocator) {
         vmaDestroyAllocator(this->memoryAllocator);
         this->memoryAllocator = nullptr;
