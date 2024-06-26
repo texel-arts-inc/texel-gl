@@ -33,14 +33,31 @@ if(ENABLE_VULKAN)
     )
 endif()
 
-if(WIN32)
+if(UNIX)
+    add_subdirectory(GLX)
+
+    list(
+        APPEND TEXEL_GL_LIBRARY_DEPENDENCIES
+        TexelGLXLibrary
+    )
+
+    if(ENABLE_VULKAN)
+        list(
+            APPEND TEXEL_GL_LIBRARY_DEPENDENCIES
+            TexelGLXDeviceVulkan
+        )
+    endif()
+elseif(WIN32)
     add_subdirectory(WGL)
+    list(
+        APPEND TEXEL_GL_LIBRARY_DEPENDENCIES
+        TexelWGLLibrary
+    )
 
     if(ENABLE_VULKAN)
         list(
             APPEND TEXEL_GL_LIBRARY_DEPENDENCIES
             TexelWGLDeviceVulkan
-            TexelWGLLibrary
         )
     endif()
 endif()

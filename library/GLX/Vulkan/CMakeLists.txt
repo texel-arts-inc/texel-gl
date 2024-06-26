@@ -1,0 +1,12 @@
+file(GLOB TEXEL_GLX_DEVICE_VULKAN_HEADERS include/*.h)
+file(GLOB TEXEL_GLX_DEVICE_VULKAN_SOURCES *.cpp)
+
+list(
+    APPEND TEXEL_GLX_DEVICE_VULKAN_LIBRARY_DEPENDENCIES
+    TexelGLDeviceVulkan
+    TexelGLXLibrary
+)
+
+add_library(TexelGLXDeviceVulkan OBJECT ${TEXEL_GLX_DEVICE_VULKAN_HEADERS} ${TEXEL_GLX_DEVICE_VULKAN_SOURCES})
+target_include_directories(TexelGLXDeviceVulkan PRIVATE include)
+target_link_libraries(TexelGLXDeviceVulkan PUBLIC ${TEXEL_GLX_DEVICE_VULKAN_LIBRARY_DEPENDENCIES})
