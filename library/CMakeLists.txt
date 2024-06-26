@@ -64,5 +64,10 @@ endif()
 
 add_library(TexelGLLibrary ${TEXEL_GL_LIBRARY_TYPE} ${TEXEL_GL_HEADERS} ${TEXEL_GL_SOURCES})
 set_target_properties(TexelGLLibrary PROPERTIES OUTPUT_NAME ${TEXEL_GL_LIBRARY_NAME})
+
+if(APPLE)
+    set_target_properties(TexelGLLibrary PROPERTIES FRAMEWORK TRUE)
+endif()
+
 target_include_directories(TexelGLLibrary PRIVATE include)
 target_link_libraries(TexelGLLibrary PUBLIC ${TEXEL_GL_LIBRARY_DEPENDENCIES})
