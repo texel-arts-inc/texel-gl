@@ -1,6 +1,14 @@
 #include <cassert>
 #include "Buffer.h"
 #include "Context.h"
+#include "Framebuffer.h"
+#include "Program.h"
+#include "Renderbuffer.h"
+#include "Sampler.h"
+#include "Shader.h"
+#include "Sync.h"
+#include "Texture.h"
+#include "VertexArray.h"
 
 TexelGL::Context::Context(std::string const &deviceName) :
     immutableState(Context::ImmutableState {
@@ -12,12 +20,22 @@ TexelGL::Context::Context(std::string const &deviceName) :
     }),
     gl10(*this),
     gl11(*this),
+    gl12(*this),
+    gl13(*this),
+    gl14(*this),
     gl15(*this),
     gl20(*this),
+    gl21(*this),
+    gl22(*this),
     gl30(*this),
     gl31(*this),
+    gl32(*this),
     gl33(*this),
+    gl40(*this),
     gl41(*this),
+    gl42(*this),
+    gl43(*this),
+    gl44(*this),
     gl45(*this),
     gl46(*this)
 {
@@ -49,6 +67,78 @@ TexelGL::Context::allocateBuffer(void)
     return id;
 }
 
+uint32_t
+TexelGL::Context::allocateFramebuffer(void)
+{
+    auto const object = this->createFramebuffer();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
+uint32_t
+TexelGL::Context::allocateProgram(void)
+{
+    auto const object = this->createProgram();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
+uint32_t
+TexelGL::Context::allocateRenderbuffer(void)
+{
+    auto const object = this->createRenderbuffer();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
+uint32_t
+TexelGL::Context::allocateSampler(void)
+{
+    auto const object = this->createSampler();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
+uint32_t
+TexelGL::Context::allocateShader(void)
+{
+    auto const object = this->createShader();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
+uint32_t
+TexelGL::Context::allocateSync(void)
+{
+    auto const object = this->createSync();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
+uint32_t
+TexelGL::Context::allocateTexture(void)
+{
+    auto const object = this->createTexture();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
+uint32_t
+TexelGL::Context::allocateVertexArray(void)
+{
+    auto const object = this->createVertexArray();
+    auto const id = this->objectTable.allocateObject(object);
+
+    return id;
+}
+
 bool
 TexelGL::Context::copyTo(Context &context) const
 {
@@ -57,7 +147,7 @@ TexelGL::Context::copyTo(Context &context) const
 }
 
 void
-TexelGL::Context::deallocateBuffer(uint32_t id)
+TexelGL::Context::deallocateObject(uint32_t id)
 {
     this->objectTable.deallocateObject(id);
 }

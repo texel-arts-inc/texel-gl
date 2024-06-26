@@ -39,5 +39,7 @@ namespace GL {
 
         uint32_t value = 0;
     };
+
+    using Sync = void const *;
 } // namespace GL
 } // namespace TexelGL

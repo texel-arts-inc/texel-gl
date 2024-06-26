@@ -70,6 +70,31 @@ namespace Vulkan {
         virtual std::shared_ptr <TexelGL::Buffer>
         createBuffer(void) override;
 
+        virtual std::shared_ptr <TexelGL::Framebuffer>
+        createFramebuffer(void) override;
+
+        virtual std::shared_ptr <TexelGL::Program>
+        createProgram(void) override;
+
+        virtual std::shared_ptr <TexelGL::Renderbuffer>
+        createRenderbuffer(void) override;
+
+        virtual std::shared_ptr <TexelGL::Sampler>
+        createSampler(void) override;
+
+        virtual std::shared_ptr <TexelGL::Shader>
+        createShader(void) override;
+
+        virtual std::shared_ptr <TexelGL::Sync>
+        createSync(void) override;
+
+
+        virtual std::shared_ptr <TexelGL::Texture>
+        createTexture(void) override;
+
+        virtual std::shared_ptr <TexelGL::VertexArray>
+        createVertexArray(void) override;
+
     public:
         virtual ~Context(void);
     };

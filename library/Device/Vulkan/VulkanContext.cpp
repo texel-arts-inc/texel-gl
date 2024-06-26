@@ -3,8 +3,15 @@
 #include "VulkanFramebuffer.h"
 #include "VulkanImage.h"
 #include "VulkanImageView.h"
+#include "VulkanProgram.h"
+#include "VulkanRenderbuffer.h"
 #include "VulkanRenderPass.h"
 #include "VulkanSwapchain.h"
+#include "VulkanSampler.h"
+#include "VulkanShader.h"
+#include "VulkanSync.h"
+#include "VulkanTexture.h"
+#include "VulkanVertexArray.h"
 
 std::string
 TexelGL::Vulkan::Context::getPhysicalDeviceName(std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice)
@@ -299,4 +306,52 @@ std::shared_ptr <TexelGL::Buffer>
 TexelGL::Vulkan::Context::createBuffer(void)
 {
     return std::make_shared <Vulkan::Buffer> (this->memoryAllocator);
+}
+
+std::shared_ptr <TexelGL::Framebuffer>
+TexelGL::Vulkan::Context::createFramebuffer(void)
+{
+    return std::make_shared <Vulkan::Framebuffer> ();
+}
+
+std::shared_ptr <TexelGL::Program>
+TexelGL::Vulkan::Context::createProgram(void)
+{
+    return std::make_shared <Vulkan::Program> ();
+}
+
+std::shared_ptr <TexelGL::Renderbuffer>
+TexelGL::Vulkan::Context::createRenderbuffer(void)
+{
+    return std::make_shared <Vulkan::Renderbuffer> ();
+}
+
+std::shared_ptr <TexelGL::Sampler>
+TexelGL::Vulkan::Context::createSampler(void)
+{
+    return std::make_shared <Vulkan::Sampler> ();
+}
+
+std::shared_ptr <TexelGL::Shader>
+TexelGL::Vulkan::Context::createShader(void)
+{
+    return std::make_shared <Vulkan::Shader> ();
+}
+
+std::shared_ptr <TexelGL::Sync>
+TexelGL::Vulkan::Context::createSync(void)
+{
+    return std::make_shared <Vulkan::Sync> ();
+}
+
+std::shared_ptr <TexelGL::Texture>
+TexelGL::Vulkan::Context::createTexture(void)
+{
+    return std::make_shared <Vulkan::Texture> ();
+}
+
+std::shared_ptr <TexelGL::VertexArray>
+TexelGL::Vulkan::Context::createVertexArray(void)
+{
+    return std::make_shared <Vulkan::VertexArray> ();
 }

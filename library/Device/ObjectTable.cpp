@@ -1,3 +1,4 @@
+#include <cassert>
 #include "Buffer.h"
 #include "ObjectTable.h"
 
@@ -12,19 +13,24 @@ TexelGL::ObjectTable::~ObjectTable(void)
 }
 
 uint32_t
-TexelGL::ObjectTable::allocateObject(std::shared_ptr<Object> const &object)
+TexelGL::ObjectTable::allocateObject(std::shared_ptr <Object> const &object)
 {
-    if (!this->freeList.empty()) {
-        auto const id = this->freeList.back();
+    assert(object);
 
+    auto id = uint32_t(0);
+
+    if (!this->freeList.empty()) {
+        id = this->freeList.back();
         this->freeList.pop_back();
-        return id;
+    } else {
+        id = this->objectList.size() +
+             1;
+
+        this->objectList.resize(id);
     }
 
-    auto const id = this->objectList.size() +
-                    1;
-
-    this->objectList.resize(id);
+    assert(!this->objectList[id -
+                             1]);
     this->objectList[id -
                      1] = object;
     return id;
@@ -43,6 +49,7 @@ TexelGL::ObjectTable::deallocateObject(uint32_t id)
 
     if (!objectList[id -
                     1]) {
+        assert(false);
         return;
     }
 

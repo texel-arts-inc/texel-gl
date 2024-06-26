@@ -4,6 +4,46 @@
 #include "EntrypointsGL30.h"
 
 void
+glBindBufferBase(TexelGL::GL::Enum target,
+                 uint32_t index,
+                 uint32_t buffer)
+{
+    auto const &contextPointer = TexelGL::Device::currentContext;
+
+    if (!contextPointer) {
+        return;
+    }
+
+    auto &context = *contextPointer;
+
+    context.gl30.glBindBufferBase(target,
+                                  index,
+                                  buffer);
+}
+
+void
+glBindBufferRange(TexelGL::GL::Enum target,
+                  uint32_t index,
+                  uint32_t buffer,
+                  intptr_t offset,
+                  intptr_t size)
+{
+    auto const &contextPointer = TexelGL::Device::currentContext;
+
+    if (!contextPointer) {
+        return;
+    }
+
+    auto &context = *contextPointer;
+
+    context.gl30.glBindBufferRange(target,
+                                   index,
+                                   buffer,
+                                   offset,
+                                   size);
+}
+
+void
 glBindFramebuffer(TexelGL::GL::Enum target,
                   uint32_t framebuffer)
 {
@@ -190,8 +230,7 @@ glFramebufferTexture2D(TexelGL::GL::Enum target,
 }
 
 void
-glGenBuffers(int32_t n,
-             uint32_t *buffers)
+glGenerateMipmap(TexelGL::GL::Enum target)
 {
     auto const &contextPointer = TexelGL::Device::currentContext;
 
@@ -201,8 +240,7 @@ glGenBuffers(int32_t n,
 
     auto &context = *contextPointer;
 
-    context.gl30.glGenBuffers(n,
-                              buffers);
+    context.gl30.glGenerateMipmap(target);
 }
 
 void

@@ -3,6 +3,18 @@
 #include "Entrypoints.h"
 
 EXPORT_API void
+glBindBufferBase(TexelGL::GL::Enum target,
+                 uint32_t index,
+                 uint32_t buffer);
+
+EXPORT_API void
+glBindBufferRange(TexelGL::GL::Enum target,
+                  uint32_t index,
+                  uint32_t buffer,
+                  intptr_t offset,
+                  intptr_t size);
+
+EXPORT_API void
 glBindFramebuffer(TexelGL::GL::Enum target,
                   uint32_t framebuffer);
 
@@ -56,8 +68,7 @@ glFramebufferTexture2D(TexelGL::GL::Enum target,
                        int32_t level);
 
 EXPORT_API void
-glGenBuffers(int32_t n,
-             uint32_t *buffers);
+glGenerateMipmap(TexelGL::GL::Enum target);
 
 EXPORT_API void
 glGenFramebuffers(int32_t n,

@@ -37,8 +37,7 @@ TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &
                                                                   &applicationInfo,
                                                                   validationLayers,
                                                                   vulkanInstanceExtensionPointers);
-    auto const instance = std::make_shared <vk::raii::Instance> (this->context,
-                                                                 instanceCreateInformation);
+    auto const instance = std::make_shared <vk::raii::Instance> (std::move(this->context.createInstance(instanceCreateInformation)));
 
     return instance;
 }
@@ -77,4 +76,6 @@ TexelGL::Vulkan::Device::Device(std::vector <std::string> const &vulkanInstanceE
 
 TexelGL::Vulkan::Device::~Device(void)
 {
+    this->physicalDevice.reset();
+    this->instance.reset();
 }
