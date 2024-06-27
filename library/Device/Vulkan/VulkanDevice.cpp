@@ -7,7 +7,8 @@ TexelGL::Vulkan::Device::getDefaultPhysicalDeviceIndex(void)
 }
 
 std::shared_ptr <vk::raii::Instance>
-TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &vulkanInstanceExtensions)
+TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &vulkanInstanceLayers,
+                                               std::vector <std::string> const &vulkanInstanceExtensions)
 {
     auto const applicationName = std::string();
     auto const applicationVersion = 1;
@@ -18,9 +19,16 @@ TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &
                                                      engineName.c_str(),
                                                      engineVersion,
                                                      this->apiVersion);
-    auto const validationLayers = std::vector <char const *> {
-        "VK_LAYER_KHRONOS_validation",
-    };
+    auto const defaultVulkanInstanceLayers = this->getVulkanInstanceLayers();
+    auto vulkanLayers = std::vector <char const *> ();
+
+    for (auto const &vulkanInstanceExtension: defaultVulkanInstanceLayers) {
+        vulkanLayers.push_back(vulkanInstanceExtension.c_str());
+    }
+
+    for (auto const &vulkanInstanceExtension: vulkanInstanceLayers) {
+        vulkanLayers.push_back(vulkanInstanceExtension.c_str());
+    }
 
     auto const defaultVulkanInstanceExtensions = this->getVulkanInstanceExtensions();
     auto vulkanInstanceExtensionPointers = std::vector <char const *> ();
@@ -35,7 +43,7 @@ TexelGL::Vulkan::Device::createDefaultInstance(std::vector <std::string> const &
 
     auto const instanceCreateInformation = vk::InstanceCreateInfo({},
                                                                   &applicationInfo,
-                                                                  validationLayers,
+                                                                  vulkanLayers,
                                                                   vulkanInstanceExtensionPointers);
     auto const instance = std::make_shared <vk::raii::Instance> (std::move(this->context.createInstance(instanceCreateInformation)));
 
@@ -56,6 +64,23 @@ TexelGL::Vulkan::Device::createDefaultPhysicalDevice(void) const
 }
 
 std::vector <std::string>
+TexelGL::Vulkan::Device::getVulkanInstanceLayers(void) const
+{
+    auto const enableValidationLayer = true;
+    auto const vkLayerKhronosShaderObject = std::string("VK_LAYER_KHRONOS_shader_object");
+    auto const vkLayerKhronosValidation = std::string("VK_LAYER_KHRONOS_validation");
+    auto vulkanLayers = std::vector <std::string> {
+        vkLayerKhronosShaderObject,
+    };
+
+    if (enableValidationLayer) {
+        vulkanLayers.push_back(vkLayerKhronosValidation);
+    }
+
+    return vulkanLayers;
+}
+
+std::vector <std::string>
 TexelGL::Vulkan::Device::getVulkanInstanceExtensions(void) const
 {
     auto vulkanInstanceExtensions = std::vector <std::string> {
@@ -65,10 +90,12 @@ TexelGL::Vulkan::Device::getVulkanInstanceExtensions(void) const
     return vulkanInstanceExtensions;
 }
 
-TexelGL::Vulkan::Device::Device(std::vector <std::string> const &vulkanInstanceExtensions) :
+TexelGL::Vulkan::Device::Device(std::vector <std::string> const &vulkanInstanceLayers,
+                                std::vector <std::string> const &vulkanInstanceExtensions) :
     TexelGL::Device::Device(),
     apiVersion(context.enumerateInstanceVersion()),
-    instance(Device::createDefaultInstance(vulkanInstanceExtensions)),
+    instance(Device::createDefaultInstance(vulkanInstanceLayers,
+                                           vulkanInstanceExtensions)),
     physicalDeviceIndex(Device::getDefaultPhysicalDeviceIndex()),
     physicalDevice(this->createDefaultPhysicalDevice())
 {

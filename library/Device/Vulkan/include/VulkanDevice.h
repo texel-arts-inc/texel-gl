@@ -19,16 +19,21 @@ namespace Vulkan {
 
     private:
         std::shared_ptr <vk::raii::Instance>
-        createDefaultInstance(std::vector <std::string> const &vulkanInstanceExtensions);
+        createDefaultInstance(std::vector <std::string> const &vulkanInstanceLayers,
+                              std::vector <std::string> const &vulkanInstanceExtensions);
 
         std::shared_ptr <vk::raii::PhysicalDevice>
         createDefaultPhysicalDevice(void) const;
 
         std::vector <std::string>
+        getVulkanInstanceLayers(void) const;
+
+        std::vector <std::string>
         getVulkanInstanceExtensions(void) const;
 
     protected:
-        Device(std::vector <std::string> const &vulkanInstanceExtensions);
+        Device(std::vector <std::string> const &vulkanInstanceLayers,
+               std::vector <std::string> const &vulkanInstanceExtensions);
 
     public:
         virtual ~Device(void);

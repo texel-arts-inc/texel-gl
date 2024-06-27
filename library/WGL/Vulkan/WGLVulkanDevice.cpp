@@ -20,7 +20,8 @@ TexelWGL::Vulkan::Device::getCurrentDevice(void)
 TexelWGL::Vulkan::Device::Device(void) :
     TexelGL::Device(TexelWGL::Device::getExtensionsNames({})),
     TexelWGL::Device(),
-    TexelGL::Vulkan::Device(this->getVulkanInstanceExtensions()),
+    TexelGL::Vulkan::Device(this->getVulkanInstanceLayers(),
+                            this->getVulkanInstanceExtensions()),
     processInstance(GetModuleHandle(nullptr))
 {
 }
@@ -42,6 +43,12 @@ TexelWGL::Vulkan::Device::createContext(TexelWGL::Context::Descriptor const &des
                                                          this->instance,
                                                          this->physicalDevice,
                                                          std::move(windowSurface));
+}
+
+std::vector <std::string>
+TexelWGL::Vulkan::Device::getVulkanInstanceLayers(void) const
+{
+    return std::vector <std::string> ();
 }
 
 std::vector <std::string>

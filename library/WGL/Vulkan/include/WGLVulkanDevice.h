@@ -22,6 +22,9 @@ namespace Vulkan {
                       TexelWGL::Context::Handle handle) const override;
 
         std::vector <std::string>
+        getVulkanInstanceLayers(void) const;
+
+        std::vector <std::string>
         getVulkanInstanceExtensions(void) const;
 
     public:
