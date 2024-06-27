@@ -12,7 +12,6 @@ find_package(spirv_cross_c REQUIRED)
 find_package(SPIRV-Tools REQUIRED)
 find_package(VulkanHeaders REQUIRED)
 find_package(VulkanMemoryAllocator REQUIRED)
-find_package(Vulkan REQUIRED)
 
 list(
     APPEND TEXEL_GL_DEVICE_VULKAN_INCLUDE_DIRECTORIES
@@ -39,7 +38,6 @@ list(
     spirv-cross-reflect
     GPUOpen::VulkanMemoryAllocator
     TexelGLDevice
-    Vulkan::Vulkan
     ${SPIRV_TOOLS_TARGET}
 )
 
