@@ -7,9 +7,6 @@
 
 namespace TexelWGL {
     class Device: public virtual TexelGL::Device {
-    public:
-        static Device &currentDevice;
-
     private:
         static int16_t
         getContextIndex(TexelWGL::Context::Handle handle);
@@ -17,6 +14,10 @@ namespace TexelWGL {
     protected:
         static std::vector <std::string>
         getExtensionsNames(std::vector <std::string> const &backendExtensionNames);
+
+    public:
+        static Device &
+        getCurrentDevice(void);
 
     protected:
         Device(void) = default;

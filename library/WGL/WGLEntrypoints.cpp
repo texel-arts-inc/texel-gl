@@ -14,7 +14,7 @@ choosePixelFormatWithDescriptor(WGL::DeviceContext deviceContext,
         return 0;
     }
 
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
 
     return device.choosePixelFormatWithDescriptor(deviceContext,
                                                   *pixelFormatDescriptor);
@@ -70,7 +70,7 @@ copyContext(WGL::ResourceContext source,
 
     auto const sourceHandle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (source));
     auto const destinationHandle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (destination));
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
     auto const &sourceContext = *device.getContext(sourceHandle);
     auto &destinationContext = *device.getContext(destinationHandle);
 
@@ -83,7 +83,7 @@ createContext(WGL::DeviceContext deviceContext)
     auto const descriptor = Context::Descriptor {
         .deviceContext = deviceContext,
     };
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
 
     return reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (device.createContextHandle(descriptor)));
 }
@@ -95,7 +95,7 @@ createLayerContext(WGL::DeviceContext deviceContext,
     auto const descriptor = Context::Descriptor {
         .deviceContext = deviceContext,
     };
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
 
     return reinterpret_cast <WGL::ResourceContext> (static_cast <uintptr_t> (device.createContextHandle(descriptor)));
 }
@@ -104,7 +104,7 @@ int32_t
 deleteContext(WGL::ResourceContext resourceContext)
 {
     auto const handle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (resourceContext));
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
     auto const &context = device.getContext(handle);
 
     if (!context) {
@@ -125,7 +125,7 @@ describePixelFormat(WGL::DeviceContext deviceContext,
         return false;
     }
 
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
 
     return device.describePixelFormat(deviceContext,
                                       pixelFormat,
@@ -161,13 +161,15 @@ getCurrentReadDeviceContext(void)
 char const *
 getExtensionsString(WGL::DeviceContext deviceContext)
 {
-    return Device::currentDevice.getExtensionsString().c_str();
+    auto &device = Device::getCurrentDevice();
+
+    return device.getExtensionsString().c_str();
 }
 
 int32_t
 getPixelFormat(WGL::DeviceContext deviceContext)
 {
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
 
     return device.getPixelFormat(deviceContext);
 }
@@ -197,7 +199,7 @@ getPixelFormatAttribiv(WGL::DeviceContext deviceContext,
 void const *
 getProcedureAddress(char const *name)
 {
-    auto const &device = static_cast <TexelWGL::Device const &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
     auto const procedureName = std::string(name);
 
     return device.getProcedureAddress(procedureName);
@@ -207,7 +209,7 @@ int32_t
 makeCurrentContext(WGL::DeviceContext deviceContext,
                    WGL::ResourceContext resourceContext)
 {
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
 
     if (!resourceContext) {
         device.setCurrentContextHandle(0);
@@ -234,7 +236,8 @@ setPixelFormat(WGL::DeviceContext deviceContext,
         return false;
 
     }
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+
+    auto &device = Device::getCurrentDevice();
 
     return device.setPixelFormat(deviceContext,
                                  pixelFormat,
@@ -252,7 +255,7 @@ shareLists(WGL::ResourceContext source,
 
     auto const sourceHandle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (source));
     auto const destinationHandle = static_cast <TexelWGL::Context::Handle> (reinterpret_cast <uintptr_t> (destination));
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
     auto const &sourceContext = *device.getContext(sourceHandle);
     auto &destinationContext = *device.getContext(destinationHandle);
 
@@ -262,7 +265,7 @@ shareLists(WGL::ResourceContext source,
 int32_t
 swapBuffers(WGL::DeviceContext deviceContext)
 {
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto &device = Device::getCurrentDevice();
 
     return device.swapBuffers(deviceContext);
 }
@@ -271,7 +274,7 @@ int32_t
 swapLayerBuffers(WGL::DeviceContext deviceContext,
                  int32_t layer)
 {
-    auto &device = static_cast <TexelWGL::Device &> (Device::currentDevice);
+    auto& device = static_cast <TexelWGL::Device &> (Device::getCurrentDevice());
 
     return device.swapLayerBuffers(deviceContext,
                                    layer);

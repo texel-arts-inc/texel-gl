@@ -2,7 +2,11 @@
 #include "WGLDevice.h"
 #include "WGLEntrypoints.h"
 
-TexelGL::Device &TexelGL::Device::currentDevice = TexelWGL::Device::currentDevice;
+TexelGL::Device &
+TexelGL::Device::getCurrentDevice(void)
+{
+   return TexelWGL::Device::getCurrentDevice();
+}
 
 int16_t
 TexelWGL::Device::getContextIndex(TexelWGL::Context::Handle handle)

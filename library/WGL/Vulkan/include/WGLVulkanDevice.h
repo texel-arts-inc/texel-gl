@@ -8,7 +8,8 @@ namespace Vulkan {
     class Device: public TexelWGL::Device,
                   public TexelGL::Vulkan::Device {
     public:
-        static Device currentDevice;
+        static Device &
+        getCurrentDevice(void);
 
     private:
         WGL::Instance processInstance = nullptr;

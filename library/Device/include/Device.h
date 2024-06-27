@@ -12,12 +12,15 @@ namespace TexelGL {
 namespace TexelGL {
     class Device {
     public:
-        static Device &currentDevice;
         static thread_local std::shared_ptr <Context> currentContext;
 
     protected:
         std::vector <std::shared_ptr <Context>> contexts = {};
         std::string extensionsString = "";
+
+    public:
+        static Device &
+        getCurrentDevice(void);
 
     protected:
         Device(void) = default;

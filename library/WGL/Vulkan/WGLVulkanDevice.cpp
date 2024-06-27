@@ -3,8 +3,19 @@
 #include "WGLVulkanContext.h"
 #include "WGLVulkanDevice.h"
 
-TexelWGL::Device &TexelWGL::Device::currentDevice = TexelWGL::Vulkan::Device::currentDevice;
-TexelWGL::Vulkan::Device TexelWGL::Vulkan::Device::currentDevice = {};
+TexelWGL::Device &
+TexelWGL::Device::getCurrentDevice(void)
+{
+    return TexelWGL::Vulkan::Device::getCurrentDevice();
+}
+
+TexelWGL::Vulkan::Device &
+TexelWGL::Vulkan::Device::getCurrentDevice(void)
+{
+    static TexelWGL::Vulkan::Device currentDevice = {};
+
+    return currentDevice;
+}
 
 TexelWGL::Vulkan::Device::Device(void) :
     TexelGL::Device(TexelWGL::Device::getExtensionsNames({})),
