@@ -56,6 +56,10 @@ namespace Vulkan {
         std::shared_ptr <Swapchain>
         createSwapchain(uint32_t queueFamilyIndex) const;
 
+        std::shared_ptr <RenderPass>
+        createSwapchainRenderPass(std::shared_ptr <Swapchain> const &swapchain,
+                                  vk::Format swapchainFormat) const;
+
         size_t
         getQueueFamilyIndex(void) const;
 

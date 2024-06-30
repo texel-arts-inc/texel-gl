@@ -126,6 +126,38 @@ TexelGL::Vulkan::Context::createSwapchain(uint32_t queueFamilyIndex) const
     return vulkanSwapchain;
 }
 
+std::shared_ptr <TexelGL::Vulkan::RenderPass>
+TexelGL::Vulkan::Context::createSwapchainRenderPass(std::shared_ptr <Swapchain> const &swapchain,
+                                                    vk::Format swapchainFormat) const
+{
+    auto const swapchainImageViews = swapchain->getImageViews();
+    auto const colorImageLoadOperation = vk::AttachmentLoadOp::eClear;
+    auto const colorImageFinalLayout = vk::ImageLayout::ePresentSrcKHR;
+    auto const swapchainColorAttachmentDescription = vk::AttachmentDescription({},
+                                                                               swapchainFormat,
+                                                                               vk::SampleCountFlagBits::e1,
+                                                                               colorImageLoadOperation,
+                                                                               vk::AttachmentStoreOp::eStore,
+                                                                               vk::AttachmentLoadOp::eDontCare,
+                                                                               vk::AttachmentStoreOp::eDontCare,
+                                                                               vk::ImageLayout::eUndefined,
+                                                                               colorImageFinalLayout);
+    auto const swapchainAttachmentDescriptions = std::vector <vk::AttachmentDescription> (swapchainImageViews.size(),
+                                                                                          swapchainColorAttachmentDescription);
+    auto const swapchainColorAttachment = vk::AttachmentReference(0,
+                                                                  vk::ImageLayout::eColorAttachmentOptimal);
+    auto const swapchainSubPassDescription = vk::SubpassDescription({},
+                                                                    vk::PipelineBindPoint::eGraphics,
+                                                                    {},
+                                                                    swapchainColorAttachment);
+    auto const swapchainRenderPassCreateInformation = vk::RenderPassCreateInfo({},
+                                                                               swapchainAttachmentDescriptions,
+                                                                               swapchainSubPassDescription);
+    auto const swapchainRenderPass = std::make_shared <RenderPass> (this->device.createRenderPass(swapchainRenderPassCreateInformation));
+
+    return swapchainRenderPass;
+}
+
 size_t
 TexelGL::Vulkan::Context::getQueueFamilyIndex(void) const
 {
@@ -237,29 +269,8 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
     auto const swapchainSurfaceExtent = this->swapchainSurfaceExtentAndImageCount.first;
     auto const swapchainSurfaceFormat = this->swapchainSurfaceFormatAndColorSpace.first;
     auto const swapchainImageViews = swapchain->getImageViews();
-    auto const colorImageLoadOperation = vk::AttachmentLoadOp::eClear;
-    auto const colorImageFinalLayout = vk::ImageLayout::ePresentSrcKHR;
-    auto const swapchainColorAttachmentDescription = vk::AttachmentDescription({},
-                                                                               swapchainSurfaceFormat,
-                                                                               vk::SampleCountFlagBits::e1,
-                                                                               colorImageLoadOperation,
-                                                                               vk::AttachmentStoreOp::eStore,
-                                                                               vk::AttachmentLoadOp::eDontCare,
-                                                                               vk::AttachmentStoreOp::eDontCare,
-                                                                               vk::ImageLayout::eUndefined,
-                                                                               colorImageFinalLayout);
-    auto const swapchainAttachmentDescriptions = std::vector <vk::AttachmentDescription> (swapchainImageViews.size(),
-                                                                                          swapchainColorAttachmentDescription);
-    auto const swapchainColorAttachment = vk::AttachmentReference(0,
-                                                                  vk::ImageLayout::eColorAttachmentOptimal);
-    auto const swapchainSubPassDescription = vk::SubpassDescription({},
-                                                                    vk::PipelineBindPoint::eGraphics,
-                                                                    {},
-                                                                    swapchainColorAttachment);
-    auto const swapchainRenderPassCreateInformation = vk::RenderPassCreateInfo({},
-                                                                               swapchainAttachmentDescriptions,
-                                                                               swapchainSubPassDescription);
-    auto const swapchainRenderPass = std::make_shared <RenderPass> (this->device.createRenderPass(swapchainRenderPassCreateInformation));
+    auto const swapchainRenderPass = this->createSwapchainRenderPass(swapchain,
+                                                                     swapchainSurfaceFormat);
     auto const swapchainRenderPassId = objectTable.allocateObject(swapchainRenderPass);
     auto const swapchainFramebuffer = this->createFramebuffer(swapchainSurfaceExtent.width,
                                                               swapchainSurfaceExtent.height,
