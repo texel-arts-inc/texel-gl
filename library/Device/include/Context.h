@@ -151,6 +151,9 @@ namespace TexelGL {
         uint32_t
         getMinorVersion(void) const;
 
+        std::shared_ptr <Object>
+        getObject(uint32_t id) const;
+
         std::string const &
         getRenderer(void) const;
 

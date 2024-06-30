@@ -8,6 +8,7 @@ namespace GL {
         EnumArrayBuffer = 0x8892,
         EnumCompileStatus = 0x8b81,
         EnumElementArrayBuffer = 0x8893,
+        EnumFramebufferComplete = 0x8cd5,
         EnumInvalidOperation = 0x0502,
         EnumLinkStatus = 0x8b82,
         EnumMapFlushExplicitBit = 0x0010,

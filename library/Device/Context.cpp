@@ -210,6 +210,12 @@ TexelGL::Context::getMinorVersion(void) const
     return this->immutableState.version.minor;
 }
 
+std::shared_ptr <TexelGL::Object>
+TexelGL::Context::getObject(uint32_t id) const
+{
+    return this->objectTable.getObject(id);
+}
+
 std::string const &
 TexelGL::Context::getRenderer(void) const
 {

@@ -1157,6 +1157,177 @@ TexelGL::ContextInterfaceGL44::glBindBuffersRange(TexelGL::GL::Enum target,
 }
 
 void
+TexelGL::ContextInterfaceGL45::glBindTextureUnit(uint32_t unit,
+                                                 uint32_t texture)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glBlitNamedFramebuffer(uint32_t readFramebuffer,
+                                                      uint32_t drawFramebuffer,
+                                                      int32_t srcX0,
+                                                      int32_t srcY0,
+                                                      int32_t srcX1,
+                                                      int32_t srcY1,
+                                                      int32_t dstX0,
+                                                      int32_t dstY0,
+                                                      int32_t dstX1,
+                                                      int32_t dstY1,
+                                                      uint32_t mask,
+                                                      TexelGL::GL::Enum filter)
+{
+}
+
+TexelGL::GL::Enum
+TexelGL::ContextInterfaceGL45::glCheckNamedFramebufferStatus(uint32_t framebuffer,
+                                                             TexelGL::GL::Enum target)
+{
+    return TexelGL::GL::EnumFramebufferComplete;
+}
+
+void
+TexelGL::ContextInterfaceGL45::glClearNamedFramebufferiv(uint32_t framebuffer,
+                                                         TexelGL::GL::Enum buffer,
+                                                         int32_t drawbuffer,
+                                                         int32_t const *value)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glClearNamedFramebufferfi(uint32_t framebuffer,
+                                                         TexelGL::GL::Enum buffer,
+                                                         int32_t drawbuffer,
+                                                         float depth,
+                                                         int32_t stencil)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glClearNamedFramebufferfv(uint32_t framebuffer,
+                                                         TexelGL::GL::Enum buffer,
+                                                         int32_t drawbuffer,
+                                                         float const *value)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glClearNamedFramebufferuiv(uint32_t framebuffer,
+                                                          TexelGL::GL::Enum buffer,
+                                                          int32_t drawbuffer,
+                                                          uint32_t const *value)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glClearNamedBufferData(uint32_t buffer,
+                                                      TexelGL::GL::Enum internalformat,
+                                                      TexelGL::GL::Enum format,
+                                                      TexelGL::GL::Enum type,
+                                                      void const *data)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glClearNamedBufferSubData(uint32_t buffer,
+                                                         TexelGL::GL::Enum internalformat,
+                                                         intptr_t offset,
+                                                         intptr_t size,
+                                                         TexelGL::GL::Enum format,
+                                                         TexelGL::GL::Enum type,
+                                                         void const *data)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glClipControl(TexelGL::GL::Enum origin,
+                                             TexelGL::GL::Enum depth)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCompressedTextureSubImage1D(uint32_t texture,
+                                                             int32_t level,
+                                                             int32_t xoffset,
+                                                             int32_t width,
+                                                             TexelGL::GL::Enum format,
+                                                             int32_t imageSize,
+                                                             void const *data)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCompressedTextureSubImage2D(uint32_t texture,
+                                                             int32_t level,
+                                                             int32_t xoffset,
+                                                             int32_t yoffset,
+                                                             int32_t width,
+                                                             int32_t height,
+                                                             TexelGL::GL::Enum format,
+                                                             int32_t imageSize,
+                                                             void const *data)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCompressedTextureSubImage3D(uint32_t texture,
+                                                             int32_t level,
+                                                             int32_t xoffset,
+                                                             int32_t yoffset,
+                                                             int32_t zoffset,
+                                                             int32_t width,
+                                                             int32_t height,
+                                                             int32_t depth,
+                                                             TexelGL::GL::Enum format,
+                                                             int32_t imageSize,
+                                                             void const *data)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCopyTextureSubImage1D(uint32_t texture,
+                                                       int32_t level,
+                                                       int32_t xoffset,
+                                                       int32_t x,
+                                                       int32_t y,
+                                                       int32_t width)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCopyTextureSubImage2D(uint32_t texture,
+                                                       int32_t level,
+                                                       int32_t xoffset,
+                                                       int32_t yoffset,
+                                                       int32_t x,
+                                                       int32_t y,
+                                                       int32_t width,
+                                                       int32_t height)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCopyTextureSubImage3D(uint32_t texture,
+                                                       int32_t level,
+                                                       int32_t xoffset,
+                                                       int32_t yoffset,
+                                                       int32_t zoffset,
+                                                       int32_t x,
+                                                       int32_t y,
+                                                       int32_t width,
+                                                       int32_t height)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCopyNamedBufferSubData(uint32_t readBuffer,
+                                                        uint32_t writeBuffer,
+                                                        intptr_t readOffset,
+                                                        intptr_t writeOffset,
+                                                        intptr_t size)
+{
+}
+
+void
 TexelGL::ContextInterfaceGL45::glCreateBuffers(int32_t n,
                                                uint32_t *buffers)
 {
@@ -1176,6 +1347,19 @@ TexelGL::ContextInterfaceGL45::glCreateFramebuffers(int32_t n,
 }
 
 void
+TexelGL::ContextInterfaceGL45::glCreateProgramPipelines(int32_t n,
+                                                        uint32_t *pipelines)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCreateQueries(TexelGL::GL::Enum target,
+                                               int32_t n,
+                                               uint32_t *ids)
+{
+}
+
+void
 TexelGL::ContextInterfaceGL45::glCreateRenderbuffers(int32_t n,
                                                      uint32_t *renderbuffers)
 {
@@ -1188,9 +1372,717 @@ TexelGL::ContextInterfaceGL45::glCreateSamplers(int32_t n,
 }
 
 void
+TexelGL::ContextInterfaceGL45::glCreateTextures(TexelGL::GL::Enum target,
+                                                int32_t n,
+                                                uint32_t *textures)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glCreateTransformFeedbacks(int32_t n,
+                                                          uint32_t *ids)
+{
+}
+
+void
 TexelGL::ContextInterfaceGL45::glCreateVertexArrays(int32_t n,
                                                     uint32_t *arrays)
 {
+}
+
+void
+TexelGL::ContextInterfaceGL45::glDisableVertexArrayAttrib(uint32_t vaobj,
+                           uint32_t index)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glEnableVertexArrayAttrib(uint32_t vaobj,
+                          uint32_t index)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glFlushMappedNamedBufferRange(uint32_t buffer,
+                              intptr_t offset,
+                              intptr_t length)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGenerateTextureMipmap(uint32_t texture)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetnCompressedTexImage(TexelGL::GL::Enum target,
+                         int32_t lod,
+                         int32_t bufSize,
+                         void *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetnTexImage(TexelGL::GL::Enum target,
+               int32_t level,
+               TexelGL::GL::Enum format,
+               TexelGL::GL::Enum type,
+               int32_t bufSize,
+               void *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetnUniformdv(uint32_t program,
+                int32_t location,
+                int32_t bufSize,
+                double *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetnUniformfv(uint32_t program,
+                int32_t location,
+                int32_t bufSize,
+                float *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetnUniformiv(uint32_t program,
+                int32_t location,
+                int32_t bufSize,
+                int32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetnUniformuiv(uint32_t program,
+                 int32_t location,
+                 int32_t bufSize,
+                 uint32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetCompressedTextureImage(uint32_t texture,
+                            int32_t level,
+                            int32_t bufSize,
+                            void *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetCompressedTextureSubImage(uint32_t texture,
+                               int32_t level,
+                               int32_t xoffset,
+                               int32_t yoffset,
+                               int32_t zoffset,
+                               int32_t width,
+                               int32_t height,
+                               int32_t depth,
+                               int32_t bufSize,
+                               void *pixels)
+{
+}
+
+TexelGL::GL::Enum
+TexelGL::ContextInterfaceGL45::glGetGraphicsResetStatus(void)
+{
+    return TexelGL::GL::EnumNoError;
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetNamedBufferParameteriv(uint32_t buffer,
+                                                           TexelGL::GL::Enum pname,
+                                                           int32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetNamedBufferParameteri64v(uint32_t buffer,
+                                                             TexelGL::GL::Enum pname,
+                                                             int64_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetNamedBufferPointerv(uint32_t buffer,
+                                                        TexelGL::GL::Enum pname,
+                                                        void **params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetNamedBufferSubData(uint32_t buffer,
+                                                       intptr_t offset,
+                                                       intptr_t size,
+                                                       void *data)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetNamedFramebufferAttachmentParameteriv(uint32_t framebuffer,
+                                                                          TexelGL::GL::Enum attachment,
+                                                                          TexelGL::GL::Enum pname,
+                                                                          int32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetNamedFramebufferParameteriv(uint32_t framebuffer,
+                                                                TexelGL::GL::Enum pname,
+                                                                int32_t *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetNamedRenderbufferParameteriv(uint32_t renderbuffer,
+                                                                 TexelGL::GL::Enum pname,
+                                                                 int32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetQueryBufferObjecti64v(uint32_t id,
+                                                          uint32_t buffer,
+                                                          TexelGL::GL::Enum pname,
+                                                          intptr_t offset)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetQueryBufferObjectiv(uint32_t id,
+                                                        uint32_t buffer,
+                                                        TexelGL::GL::Enum pname,
+                                                        intptr_t offset)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetQueryBufferObjectui64v(uint32_t id,
+                                                           uint32_t buffer,
+                                                           TexelGL::GL::Enum pname,
+                                                           intptr_t offset)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetQueryBufferObjectuiv(uint32_t id,
+                                                         uint32_t buffer,
+                                                         TexelGL::GL::Enum pname,
+                                                         intptr_t offset)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureImage(uint32_t texture,
+                                                 int32_t level,
+                                                 TexelGL::GL::Enum format,
+                                                 TexelGL::GL::Enum type,
+                                                 int32_t bufSize,
+                                                 void *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureLevelParameterfv(uint32_t texture,
+                                                            int32_t level,
+                                                            TexelGL::GL::Enum pname,
+                                                            float *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureLevelParameteriv(uint32_t texture,
+                                                            int32_t level,
+                                                            TexelGL::GL::Enum pname,
+                                                            int32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureParameterfv(uint32_t texture,
+                                                       TexelGL::GL::Enum pname,
+                                                       float *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureParameteriv(uint32_t texture,
+                                                       TexelGL::GL::Enum pname,
+                                                       int32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureParameterIiv(uint32_t texture,
+                                                        TexelGL::GL::Enum pname,
+                                                        int32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureParameterIuiv(uint32_t texture,
+                                                         TexelGL::GL::Enum pname,
+                                                         uint32_t *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTextureSubImage(uint32_t texture,
+                                                    int32_t level,
+                                                    int32_t xoffset,
+                                                    int32_t yoffset,
+                                                    int32_t zoffset,
+                                                    int32_t width,
+                                                    int32_t height,
+                                                    int32_t depth,
+                                                    TexelGL::GL::Enum format,
+                                                    TexelGL::GL::Enum type,
+                                                    int32_t bufSize,
+                                                    void *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTransformFeedbacki_v(uint32_t xfb,
+                                                         TexelGL::GL::Enum pname,
+                                                         uint32_t index,
+                                                         int32_t *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTransformFeedbacki64_v(uint32_t xfb,
+                                                           TexelGL::GL::Enum pname,
+                                                           uint32_t index,
+                                                           int64_t *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetTransformFeedbackiv(uint32_t xfb,
+                                                        TexelGL::GL::Enum pname,
+                                                        int32_t *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetVertexArrayiv(uint32_t vaobj,
+                                                  TexelGL::GL::Enum pname,
+                                                  int32_t *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetVertexArrayIndexediv(uint32_t vaobj,
+                                                         uint32_t index,
+                                                         TexelGL::GL::Enum pname,
+                                                         int32_t *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glGetVertexArrayIndexed64iv(uint32_t vaobj,
+                                                           uint32_t index,
+                                                           TexelGL::GL::Enum pname,
+                                                           int64_t *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glInvalidateNamedFramebufferData(uint32_t framebuffer,
+                                                                int32_t numAttachments,
+                                                                TexelGL::GL::Enum const *attachments)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glInvalidateNamedFramebufferSubData(uint32_t framebuffer,
+                                                                   int32_t numAttachments,
+                                                                   TexelGL::GL::Enum const *attachments,
+                                                                   int32_t x,
+                                                                   int32_t y,
+                                                                   int32_t width,
+                                                                   int32_t height)
+{
+}
+
+void *
+TexelGL::ContextInterfaceGL45::glMapNamedBuffer(uint32_t buffer,
+                                                TexelGL::GL::Enum access)
+{
+    return nullptr;
+}
+
+void *
+TexelGL::ContextInterfaceGL45::glMapNamedBufferRange(uint32_t buffer,
+                                                     intptr_t offset,
+                                                     intptr_t length,
+                                                     TexelGL::GL::MapAccessFlags access)
+{
+    auto const &context = this->context;
+    auto const bufferPointer = std::dynamic_pointer_cast <Buffer> (context.getObject(buffer));
+
+    if (!bufferPointer) {
+        return nullptr;
+    }
+
+    auto &bufferObject = *bufferPointer;
+    auto const mapping = bufferObject.mapBuffer(offset,
+                                                length,
+                                                access);
+
+    return mapping.data();
+}
+
+void
+TexelGL::ContextInterfaceGL45::glMemoryBarrierByRegion(uint32_t barriers)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedBufferData(uint32_t buffer,
+                                                 intptr_t size,
+                                                 void const *data,
+                                                 TexelGL::GL::Enum usage)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedBufferStorage(uint32_t buffer,
+                                                    intptr_t size,
+                                                    void const *data,
+                                                    uint32_t flags)
+{
+    auto const bufferObject = std::dynamic_pointer_cast <Buffer> (this->context.getObject(buffer));
+
+    if (!bufferObject) {
+        return;
+    }
+
+    bufferObject->allocateBytes(size);
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedBufferSubData(uint32_t buffer,
+                                                    intptr_t offset,
+                                                    intptr_t size,
+                                                    void const *data)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedFramebufferDrawBuffer(uint32_t framebuffer,
+                                                            TexelGL::GL::Enum buf)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedFramebufferDrawBuffers(uint32_t framebuffer,
+                                                             int32_t n,
+                                                             TexelGL::GL::Enum const *bufs)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedFramebufferParameteri(uint32_t framebuffer,
+                                                            TexelGL::GL::Enum pname,
+                                                            int32_t param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedFramebufferReadBuffer(uint32_t framebuffer,
+                                                            TexelGL::GL::Enum src)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedFramebufferRenderbuffer(uint32_t framebuffer,
+                                                              TexelGL::GL::Enum attachment,
+                                                              TexelGL::GL::Enum renderbuffertarget,
+                                                              uint32_t renderbuffer)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedFramebufferTexture(uint32_t framebuffer,
+                                                         TexelGL::GL::Enum attachment,
+                                                         uint32_t texture,
+                                                         int32_t level)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glNamedFramebufferTextureLayer(uint32_t framebuffer,
+                                                              TexelGL::GL::Enum attachment,
+                                                              uint32_t texture,
+                                                              int32_t level,
+                                                              int32_t layer)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glReadnPixels(int32_t x,
+                                             int32_t y,
+                                             int32_t width,
+                                             int32_t height,
+                                             TexelGL::GL::Enum format,
+                                             TexelGL::GL::Enum type,
+                                             int32_t bufSize,
+                                             void *data)
+{
+}
+
+ void
+TexelGL::ContextInterfaceGL45::glTextureBarrier(void)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureBuffer(uint32_t texture,
+                                               TexelGL::GL::Enum internalformat,
+                                               uint32_t buffer)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureBufferRange(uint32_t texture,
+                                                    TexelGL::GL::Enum internalformat,
+                                                    uint32_t buffer,
+                                                    intptr_t offset,
+                                                    intptr_t size)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureParameterf(uint32_t texture,
+                                                   TexelGL::GL::Enum pname,
+                                                   float param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureParameterfv(uint32_t texture,
+                                                    TexelGL::GL::Enum pname,
+                                                    float const *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureParameteri(uint32_t texture,
+                                                   TexelGL::GL::Enum pname,
+                                                   int32_t param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureParameteriv(uint32_t texture,
+                                                    TexelGL::GL::Enum pname,
+                                                    int32_t const *param)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureParameterIiv(uint32_t texture,
+                                                     TexelGL::GL::Enum pname,
+                                                     int32_t const *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureParameterIuiv(uint32_t texture,
+                                                      TexelGL::GL::Enum pname,
+                                                      uint32_t const *params)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureStorage1D(uint32_t texture,
+                                                  int32_t levels,
+                                                  TexelGL::GL::Enum internalformat,
+                                                  int32_t width)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureStorage2D(uint32_t texture,
+                                                  int32_t levels,
+                                                  TexelGL::GL::Enum internalformat,
+                                                  int32_t width,
+                                                  int32_t height)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureStorage2DMultisample(uint32_t texture,
+                                                             int32_t samples,
+                                                             TexelGL::GL::Enum internalformat,
+                                                             int32_t width,
+                                                             int32_t height,
+                                                             uint8_t fixedsamplelocations)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureStorage3D(uint32_t texture,
+                                                  int32_t levels,
+                                                  TexelGL::GL::Enum internalformat,
+                                                  int32_t width,
+                                                  int32_t height,
+                                                  int32_t depth)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureStorage3DMultisample(uint32_t texture,
+                                                             int32_t samples,
+                                                             TexelGL::GL::Enum internalformat,
+                                                             int32_t width,
+                                                             int32_t height,
+                                                             int32_t depth,
+                                                             uint8_t fixedsamplelocations)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureSubImage1D(uint32_t texture,
+                                                   int32_t level,
+                                                   int32_t xoffset,
+                                                   int32_t width,
+                                                   TexelGL::GL::Enum format,
+                                                   TexelGL::GL::Enum type,
+                                                   void const *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureSubImage2D(uint32_t texture,
+                                                   int32_t level,
+                                                   int32_t xoffset,
+                                                   int32_t yoffset,
+                                                   int32_t width,
+                                                   int32_t height,
+                                                   TexelGL::GL::Enum format,
+                                                   TexelGL::GL::Enum type,
+                                                   void const *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTextureSubImage3D(uint32_t texture,
+                                                   int32_t level,
+                                                   int32_t xoffset,
+                                                   int32_t yoffset,
+                                                   int32_t zoffset,
+                                                   int32_t width,
+                                                   int32_t height,
+                                                   int32_t depth,
+                                                   TexelGL::GL::Enum format,
+                                                   TexelGL::GL::Enum type,
+                                                   void const *pixels)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTransformFeedbackBufferBase(uint32_t xfb,
+                                                             uint32_t index,
+                                                             uint32_t buffer)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glTransformFeedbackBufferRange(uint32_t xfb,
+                                                              uint32_t index,
+                                                              uint32_t buffer,
+                                                              intptr_t offset,
+                                                              intptr_t size)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayAttribBinding(uint32_t vaobj,
+                                                          uint32_t attribindex,
+                                                          uint32_t bindingindex)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayAttribFormat(uint32_t vaobj,
+                                                         uint32_t attribindex,
+                                                         int32_t size,
+                                                         TexelGL::GL::Enum type,
+                                                         uint8_t normalized,
+                                                         uint32_t relativeoffset)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayAttribIFormat(uint32_t vaobj,
+                                                          uint32_t attribindex,
+                                                          int32_t size,
+                                                          TexelGL::GL::Enum type,
+                                                          uint32_t relativeoffset)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayAttribLFormat(uint32_t vaobj,
+                                                          uint32_t attribindex,
+                                                          int32_t size,
+                                                          TexelGL::GL::Enum type,
+                                                          uint32_t relativeoffset)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayBindingDivisor(uint32_t vaobj,
+                                                           uint32_t bindingindex,
+                                                           uint32_t divisor)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayElementBuffer(uint32_t vaobj,
+                                                          uint32_t buffer)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayVertexBuffer(uint32_t vaobj,
+                                                         uint32_t bindingindex,
+                                                         uint32_t buffer,
+                                                         intptr_t offset,
+                                                         int32_t stride)
+{
+}
+
+void
+TexelGL::ContextInterfaceGL45::glVertexArrayVertexBuffers(uint32_t vaobj,
+                                                          uint32_t first,
+                                                          int32_t count,
+                                                          uint32_t const *buffers,
+                                                          intptr_t const *offsets,
+                                                          int32_t const *strides)
+{
+}
+
+uint8_t
+TexelGL::ContextInterfaceGL45::glUnmapNamedBuffer(uint32_t buffer)
+{
+    auto const &context = this->context;
+    auto const bufferPointer = std::dynamic_pointer_cast <Buffer> (context.getObject(buffer));
+
+    if (!bufferPointer) {
+        return false;
+    }
+
+    auto &bufferObject = *bufferPointer;
+
+    bufferObject.unmapBuffer();
+    return true;
 }
 
 void
