@@ -385,7 +385,7 @@ namespace TexelGL {
         glCreateProgram(void);
 
         uint32_t
-        glCreateShader(void);
+        glCreateShader(TexelGL::GL::Enum shaderType);
 
         void
         glDeleteProgram(uint32_t program);

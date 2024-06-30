@@ -102,11 +102,10 @@ namespace Vulkan {
         createSampler(void) override;
 
         virtual std::shared_ptr <TexelGL::Shader>
-        createShader(void) override;
+        createShader(TexelGL::GL::ShaderType shaderType) override;
 
         virtual std::shared_ptr <TexelGL::Sync>
         createSync(void) override;
-
 
         virtual std::shared_ptr <TexelGL::Texture>
         createTexture(void) override;

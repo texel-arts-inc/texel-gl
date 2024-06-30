@@ -5,6 +5,7 @@
 #include <vector>
 #include "ContextInterfaces.h"
 #include "ObjectTable.h"
+#include "ShaderCompiler.h"
 
 namespace TexelGL {
     class Buffer;
@@ -43,6 +44,7 @@ namespace TexelGL {
         ImmutableState const immutableState = {};
         BindingState bindingState = {};
         ObjectTable objectTable = {};
+        std::shared_ptr <ShaderCompiler> shaderCompiler = nullptr;
 
     public:
         ContextInterfaceGL10 gl10;
@@ -83,7 +85,7 @@ namespace TexelGL {
         createSampler(void) = 0;
 
         virtual std::shared_ptr <Shader>
-        createShader(void) = 0;
+        createShader(TexelGL::GL::ShaderType shaderType) = 0;
 
         virtual std::shared_ptr <Sync>
         createSync(void) = 0;
@@ -118,7 +120,7 @@ namespace TexelGL {
         allocateSampler(void);
 
         uint32_t
-        allocateShader(void);
+        allocateShader(TexelGL::GL::ShaderType shaderType);
 
         uint32_t
         allocateSync(void);

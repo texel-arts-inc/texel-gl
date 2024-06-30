@@ -18,7 +18,7 @@ EXPORT_API uint32_t
 glCreateProgram(void);
 
 EXPORT_API uint32_t
-glCreateShader(void);
+glCreateShader(TexelGL::GL::Enum shaderType);
 
 EXPORT_API void
 glDeleteProgram(uint32_t program);

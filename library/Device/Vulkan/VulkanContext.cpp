@@ -363,9 +363,10 @@ TexelGL::Vulkan::Context::createSampler(void)
 }
 
 std::shared_ptr <TexelGL::Shader>
-TexelGL::Vulkan::Context::createShader(void)
+TexelGL::Vulkan::Context::createShader(TexelGL::GL::ShaderType shaderType)
 {
-    return std::make_shared <Vulkan::Shader> ();
+    return std::make_shared <Vulkan::Shader> (this->shaderCompiler,
+                                              shaderType);
 }
 
 std::shared_ptr <TexelGL::Sync>

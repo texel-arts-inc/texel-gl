@@ -66,7 +66,7 @@ glCreateProgram(void)
 }
 
 uint32_t
-glCreateShader(void)
+glCreateShader(TexelGL::GL::Enum shaderType)
 {
     auto const &contextPointer = TexelGL::Device::currentContext;
 
@@ -76,7 +76,7 @@ glCreateShader(void)
 
     auto &context = *contextPointer;
 
-    return context.gl20.glCreateShader();
+    return context.gl20.glCreateShader(shaderType);
 }
 
 void

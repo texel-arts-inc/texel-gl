@@ -563,6 +563,16 @@ TexelGL::ContextInterfaceGL20::glBindAttribLocation(uint32_t program,
 void
 TexelGL::ContextInterfaceGL20::glCompileShader(uint32_t shader)
 {
+    auto const shaderPointer = std::dynamic_pointer_cast <Shader> (this->context.getObject(shader));
+
+    if (!shaderPointer) {
+        return;
+    }
+
+    auto &shaderObject = *shaderPointer;
+
+    shaderObject.compileShader("main",
+                               {});
 }
 
 uint32_t
@@ -572,9 +582,15 @@ TexelGL::ContextInterfaceGL20::glCreateProgram(void)
 }
 
 uint32_t
-TexelGL::ContextInterfaceGL20::glCreateShader(void)
+TexelGL::ContextInterfaceGL20::glCreateShader(TexelGL::GL::Enum shaderType)
 {
-    return this->context.allocateShader();
+    auto const optionalShaderType = Shader::mapToShaderType(shaderType);
+
+    if (!optionalShaderType) {
+        return 0;
+    }
+
+    return this->context.allocateShader(*optionalShaderType);
 }
 
 void
@@ -1142,7 +1158,39 @@ TexelGL::ContextInterfaceGL41::glShaderBinary(int32_t count,
                                               void const *binary,
                                               int32_t length)
 {
+    auto const optionalShaderBinaryFormat = Shader::mapToShaderBinaryFormat(binaryFormat);
+
+    if (!optionalShaderBinaryFormat) {
+        return;
+    }
+
+    auto const shaderBinaryFormat = *optionalShaderBinaryFormat;
+
+    for (auto i = int32_t(0);
+         i < count;
+         ++i) {
+        auto const id = shaders[i];
+
+        if (!id) {
+            continue;
+        }
+
+        auto const shaderPointer = std::dynamic_pointer_cast <Shader> (this->context.getObject(id));
+
+        if (!shaderPointer) {
+            continue;
+        }
+
+        auto &shaderObject = *shaderPointer;
+        auto const binaryData = std::span <uint8_t const> (static_cast <uint8_t const *> (binary),
+                                                           static_cast <uint8_t const *> (binary) +
+                                                           length);
+
+        shaderObject.setShaderBinary(shaderBinaryFormat,
+                                     binaryData);
+    }
 }
+
 void
 TexelGL::ContextInterfaceGL44::glBindBuffersBase(TexelGL::GL::Enum target,
                                                  uint32_t first,
@@ -2097,4 +2145,27 @@ TexelGL::ContextInterfaceGL46::glSpecializeShader(uint32_t shader,
                                                   uint32_t const *pConstantIndex,
                                                   uint32_t const *pConstantValue)
 {
+    auto const shaderPointer = std::dynamic_pointer_cast <Shader> (this->context.getObject(shader));
+
+    if (!shaderPointer) {
+        return;
+    }
+
+    auto &shaderObject = *shaderPointer;
+    auto const entryPoint = std::string(pEntryPoint ? pEntryPoint :
+                                                      "");
+    auto specializationConstants = std::vector <std::pair <uint32_t,
+                                                           uint32_t>> ();
+
+    for (auto i = uint32_t(0);
+         i < numSpecializationConstants;
+         ++i) {
+        auto specializationConstant = std::make_pair(pConstantIndex[i],
+                                                     pConstantValue[i]);
+
+        specializationConstants.push_back(std::move(specializationConstant));
+    }
+
+    shaderObject.compileShader(entryPoint,
+                               specializationConstants);
 }

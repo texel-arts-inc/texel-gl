@@ -104,9 +104,9 @@ TexelGL::Context::allocateSampler(void)
 }
 
 uint32_t
-TexelGL::Context::allocateShader(void)
+TexelGL::Context::allocateShader(TexelGL::GL::ShaderType shaderType)
 {
-    auto const object = this->createShader();
+    auto const object = this->createShader(shaderType);
     auto const id = this->objectTable.allocateObject(object);
 
     return id;
