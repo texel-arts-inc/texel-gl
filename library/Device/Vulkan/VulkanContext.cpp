@@ -33,7 +33,8 @@ TexelGL::Vulkan::Context::createCommandPool(void) const
     auto const commandPoolCreateInformation = vk::CommandPoolCreateInfo(flags,
                                                                         queueFamilyIndex);
     auto commandPool = this->device.createCommandPool(commandPoolCreateInformation);
-    auto vulkanCommandPool = CommandPool(std::move(commandPool));
+    auto vulkanCommandPool = CommandPool(this->device,
+                                         std::move(commandPool));
 
     return vulkanCommandPool;
 }
