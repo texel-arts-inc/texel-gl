@@ -1,5 +1,4 @@
 #include "VulkanBuffer.h"
-#include "VulkanCommandPool.h"
 #include "VulkanContext.h"
 #include "VulkanFence.h"
 #include "VulkanFramebuffer.h"
@@ -22,6 +21,21 @@ TexelGL::Vulkan::Context::getPhysicalDeviceName(std::shared_ptr <vk::raii::Physi
     auto const &properties = physicalDevice->getProperties();
 
     return std::string(&properties.deviceName[0]);
+}
+
+TexelGL::Vulkan::CommandPool
+TexelGL::Vulkan::Context::createCommandPool(void) const
+{
+    auto const flags = vk::CommandPoolCreateFlags {
+        vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
+    };
+    auto const queueFamilyIndex = this->queueFamilyIndex;
+    auto const commandPoolCreateInformation = vk::CommandPoolCreateInfo(flags,
+                                                                        queueFamilyIndex);
+    auto commandPool = this->device.createCommandPool(commandPoolCreateInformation);
+    auto vulkanCommandPool = CommandPool(std::move(commandPool));
+
+    return vulkanCommandPool;
 }
 
 vk::raii::Device
@@ -262,7 +276,8 @@ TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
     swapchainSurfaceExtentAndImageCount(this->getSwapchainSurfaceExtentAndImageCount()),
     swapchainSurfaceFormatAndColorSpace(this->getSwapchainSurfaceFormatAndColorSpace()),
     queueFamilyIndex(this->getQueueFamilyIndex()),
-    device(this->createDevice(vulkanDeviceExtensions))
+    device(this->createDevice(vulkanDeviceExtensions)),
+    commandPool(this->createCommandPool())
 {
     auto &objectTable = this->objectTable;
     auto const swapchain = this->createSwapchain(queueFamilyIndex);

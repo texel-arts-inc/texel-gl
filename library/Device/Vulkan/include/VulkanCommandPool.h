@@ -6,9 +6,13 @@
 namespace TexelGL {
 namespace Vulkan {
     class CommandPool: public TexelGL::Object {
+    private:
+        vk::raii::CommandPool commandPool;
 
     public:
-        CommandPool(void);
+        CommandPool(vk::raii::CommandPool &&commandPool);
+
+        CommandPool(CommandPool &&other);
 
         virtual ~CommandPool(void);
     };

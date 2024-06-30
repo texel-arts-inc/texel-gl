@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Context.h"
+#include "VulkanCommandPool.h"
 #include "VulkanInterface.h"
 
 namespace TexelGL {
@@ -34,6 +35,7 @@ namespace Vulkan {
                    vk::ColorSpaceKHR> swapchainSurfaceFormatAndColorSpace = {};
         size_t queueFamilyIndex = 0;
         vk::raii::Device const device = nullptr;
+        CommandPool commandPool;
         uint32_t swapchainId = 0;
         uint32_t swapchainRenderPassId = 0;
         uint32_t swapchainFramebufferId = 0;
@@ -44,6 +46,9 @@ namespace Vulkan {
         getPhysicalDeviceName(std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice);
 
     private:
+        CommandPool
+        createCommandPool(void) const;
+
         vk::raii::Device
         createDevice(std::vector <std::string> const &vulkanDeviceExtensions) const;
 
