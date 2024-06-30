@@ -6,11 +6,21 @@
 namespace TexelGL {
 namespace Vulkan {
     class Buffer;
+    class CommandPool;
+    class Fence;
     class Framebuffer;
     class Image;
     class ImageView;
+    class Program;
+    class Renderbuffer;
     class RenderPass;
+    class Sampler;
+    class Semaphore;
+    class Shader;
     class Swapchain;
+    class Sync;
+    class Texture;
+    class VertexArray;
 
     class Context: public virtual TexelGL::Context {
     protected:
