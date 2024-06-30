@@ -52,6 +52,11 @@ TexelGL::ContextInterfaceGL10::glCullFace(TexelGL::GL::Enum mode)
 }
 
 void
+TexelGL::ContextInterfaceGL10::glDepthFunc(TexelGL::GL::Enum func)
+{
+}
+
+void
 TexelGL::ContextInterfaceGL10::glDepthMask(uint8_t flag)
 {
 }

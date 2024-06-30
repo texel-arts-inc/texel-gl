@@ -40,6 +40,9 @@ namespace TexelGL {
         glCullFace(TexelGL::GL::Enum mode);
 
         void
+        glDepthFunc(TexelGL::GL::Enum func);
+
+        void
         glDepthMask(uint8_t flag);
 
         void

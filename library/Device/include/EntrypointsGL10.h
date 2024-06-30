@@ -27,6 +27,9 @@ EXPORT_API void
 glCullFace(TexelGL::GL::Enum mode);
 
 EXPORT_API void
+glDepthFunc (TexelGL::GL::Enum func);
+
+EXPORT_API void
 glDepthMask(uint8_t flag);
 
 EXPORT_API void

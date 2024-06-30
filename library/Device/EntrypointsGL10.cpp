@@ -100,6 +100,20 @@ glCullFace(TexelGL::GL::Enum mode)
 }
 
 void
+glDepthFunc(TexelGL::GL::Enum func)
+{
+    auto const &contextPointer = TexelGL::Device::currentContext;
+
+    if (!contextPointer) {
+        return;
+    }
+
+    auto &context = *contextPointer;
+
+    context.gl10.glDepthFunc(func);
+}
+
+void
 glDepthMask(uint8_t flag)
 {
     auto const &contextPointer = TexelGL::Device::currentContext;
