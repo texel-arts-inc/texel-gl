@@ -27,7 +27,7 @@ namespace Vulkan {
         std::shared_ptr <vk::raii::PhysicalDevice> physicalDevice = nullptr;
         vk::PhysicalDeviceProperties const physicalDeviceProperties = {};
         vk::PhysicalDeviceFeatures const physicalDeviceFeatures = {};
-        vk::raii::SurfaceKHR const &windowSurface;
+        vk::raii::SurfaceKHR windowSurface;
         std::pair <vk::Extent2D,
                    uint32_t> swapchainSurfaceExtentAndImageCount = {};
         std::pair <vk::Format,
