@@ -12,6 +12,7 @@ public:
     ~ShaderCompiler(void);
 
     std::vector <uint32_t>
-    convertGLSpirVToVulkan(std::span <uint32_t const> const &glSpirVByteCode);
+    convertGLSpirVToVulkan(TexelGL::GL::ShaderType shaderType,
+                           std::span <uint32_t const> const &glSpirVByteCode);
 };
 } // namespace TexelGL

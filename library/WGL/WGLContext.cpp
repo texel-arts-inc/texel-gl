@@ -2,8 +2,10 @@
 
 TexelWGL::Context::Context(Descriptor const &descriptor,
                            Handle handle,
-                           std::string const &deviceName) :
-    TexelGL::Context(deviceName),
+                           std::string const &deviceName,
+                           std::shared_ptr <TexelGL::ShaderCompiler> const &shaderCompiler) :
+    TexelGL::Context(deviceName,
+                     shaderCompiler),
     descriptor(descriptor),
     handle(handle)
 {

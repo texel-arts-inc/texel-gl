@@ -80,7 +80,8 @@ namespace Vulkan {
         getVulkanDeviceExtensions(void) const;
 
     protected:
-        Context(uint32_t apiVersion,
+        Context(std::shared_ptr <ShaderCompiler> shaderCompiler,
+                uint32_t apiVersion,
                 std::shared_ptr <vk::raii::Instance> const &instance,
                 std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice,
                 std::vector <std::string> const &vulkanDeviceExtensions,

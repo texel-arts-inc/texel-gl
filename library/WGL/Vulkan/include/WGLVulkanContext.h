@@ -14,6 +14,7 @@ namespace Vulkan {
     public:
         Context(TexelWGL::Context::Descriptor const &descriptor,
                 TexelWGL::Context::Handle handle,
+                std::shared_ptr <TexelGL::ShaderCompiler> shaderCompiler,
                 uint32_t apiVersion,
                 std::shared_ptr <vk::raii::Instance> const &instance,
                 std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice,

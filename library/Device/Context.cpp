@@ -10,7 +10,8 @@
 #include "Texture.h"
 #include "VertexArray.h"
 
-TexelGL::Context::Context(std::string const &deviceName) :
+TexelGL::Context::Context(std::string const &deviceName,
+                          std::shared_ptr <ShaderCompiler> shaderCompiler) :
     immutableState(Context::ImmutableState {
         .version = Context::ImmutableState::Version {
             .major = 4,
@@ -18,6 +19,7 @@ TexelGL::Context::Context(std::string const &deviceName) :
         },
         .renderer = deviceName,
     }),
+    shaderCompiler(shaderCompiler),
     gl10(*this),
     gl11(*this),
     gl12(*this),

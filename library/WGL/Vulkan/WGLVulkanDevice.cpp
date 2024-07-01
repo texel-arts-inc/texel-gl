@@ -39,6 +39,7 @@ TexelWGL::Vulkan::Device::createContext(TexelWGL::Context::Descriptor const &des
 
     return std::make_shared <TexelWGL::Vulkan::Context> (descriptor,
                                                          handle,
+                                                         shaderCompiler,
                                                          this->apiVersion,
                                                          this->instance,
                                                          this->physicalDevice,

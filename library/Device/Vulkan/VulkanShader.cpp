@@ -6,6 +6,8 @@ TexelGL::Vulkan::Shader::compile(std::string const &entryPoint,
                                  std::vector <std::pair <uint32_t,
                                                          uint32_t>> const &specializationConstants)
 {
+    auto spirV = std::vector <uint32_t> ();
+
     switch (this->state.binaryFormat) {
     case TexelGL::GL::ShaderBinaryFormatSpirV: {
         auto const &shaderData = this->state.shaderData;
@@ -13,7 +15,8 @@ TexelGL::Vulkan::Shader::compile(std::string const &entryPoint,
                                                                  reinterpret_cast <uint32_t const *> (shaderData.data() +
                                                                                                       shaderData.size()));
 
-        this->shaderCompiler->convertGLSpirVToVulkan(glSpirVByteCode);
+        spirV = this->shaderCompiler->convertGLSpirVToVulkan(this->shaderType,
+                                                             glSpirVByteCode);
         break;
     }
 
@@ -22,12 +25,24 @@ TexelGL::Vulkan::Shader::compile(std::string const &entryPoint,
                "Unsupported shader binary format.");
         break;
     }
+
+    if (spirV.empty()) {
+        return;
+    }
+
+    auto const shaderModuleCreateInformation = vk::ShaderModuleCreateInfo({},
+                                                                           spirV);
+    auto shaderModule = this->device.createShaderModule(shaderModuleCreateInformation);
+
+    this->shaderModule = std::make_optional(std::move(shaderModule));
 }
 
-TexelGL::Vulkan::Shader::Shader(std::shared_ptr <ShaderCompiler> const &shaderCompiler,
+TexelGL::Vulkan::Shader::Shader(vk::raii::Device const &device,
+                                std::shared_ptr <ShaderCompiler> const &shaderCompiler,
                                 TexelGL::GL::ShaderType shaderType) :
     TexelGL::Shader::Shader(shaderCompiler,
-                            shaderType)
+                            shaderType),
+    device(device)
 {
 }
 

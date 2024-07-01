@@ -5,7 +5,6 @@
 #include <vector>
 #include "ContextInterfaces.h"
 #include "ObjectTable.h"
-#include "ShaderCompiler.h"
 
 namespace TexelGL {
     class Buffer;
@@ -14,6 +13,7 @@ namespace TexelGL {
     class Renderbuffer;
     class Sampler;
     class Shader;
+    class ShaderCompiler;
     class Sync;
     class Texture;
     class VertexArray;
@@ -97,7 +97,8 @@ namespace TexelGL {
         createVertexArray(void) = 0;
 
     public:
-        Context(std::string const &deviceName);
+        Context(std::string const &deviceName,
+                std::shared_ptr <ShaderCompiler> shaderCompiler);
 
         virtual ~Context(void);
 

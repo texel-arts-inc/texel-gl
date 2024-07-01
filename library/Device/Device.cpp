@@ -10,10 +10,12 @@
 #include "EntrypointsGL41.h"
 #include "EntrypointsGL45.h"
 #include "EntrypointsGL46.h"
+#include "ShaderCompiler.h"
 
 thread_local std::shared_ptr <TexelGL::Context> TexelGL::Device::currentContext = nullptr;
 
-TexelGL::Device::Device(std::vector <std::string> const &extensionsNames)
+TexelGL::Device::Device(std::vector <std::string> const &extensionsNames) :
+    shaderCompiler(std::make_shared <ShaderCompiler> ())
 {
     for (auto const &extensionName: extensionsNames) {
         this->extensionsString += extensionName +

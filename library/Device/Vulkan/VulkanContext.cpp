@@ -264,12 +264,14 @@ TexelGL::Vulkan::Context::getVulkanDeviceExtensions(void) const
     return vulkanDeviceExtensions;
 }
 
-TexelGL::Vulkan::Context::Context(uint32_t apiVersion,
+TexelGL::Vulkan::Context::Context(std::shared_ptr <ShaderCompiler> shaderCompiler,
+                                  uint32_t apiVersion,
                                   std::shared_ptr <vk::raii::Instance> const &instance,
                                   std::shared_ptr <vk::raii::PhysicalDevice> const &physicalDevice,
                                   std::vector <std::string> const &vulkanDeviceExtensions,
                                   vk::raii::SurfaceKHR &&windowSurface) :
-    TexelGL::Context::Context(Context::getPhysicalDeviceName(physicalDevice)),
+    TexelGL::Context::Context(Context::getPhysicalDeviceName(physicalDevice),
+                              shaderCompiler),
     physicalDevice(physicalDevice),
     physicalDeviceProperties(this->physicalDevice->getProperties()),
     physicalDeviceFeatures(this->physicalDevice->getFeatures()),
@@ -365,7 +367,8 @@ TexelGL::Vulkan::Context::createSampler(void)
 std::shared_ptr <TexelGL::Shader>
 TexelGL::Vulkan::Context::createShader(TexelGL::GL::ShaderType shaderType)
 {
-    return std::make_shared <Vulkan::Shader> (this->shaderCompiler,
+    return std::make_shared <Vulkan::Shader> (this->device,
+                                              this->shaderCompiler,
                                               shaderType);
 }
 

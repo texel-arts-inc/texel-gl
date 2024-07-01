@@ -10,6 +10,8 @@ namespace TexelGL {
 } // namespace TexelGL
 
 namespace TexelGL {
+    class ShaderCompiler;
+
     class Device {
     public:
         static thread_local std::shared_ptr <Context> currentContext;
@@ -17,6 +19,7 @@ namespace TexelGL {
     protected:
         std::vector <std::shared_ptr <Context>> contexts = {};
         std::string extensionsString = "";
+        std::shared_ptr <ShaderCompiler> shaderCompiler = {};
 
     public:
         static Device &

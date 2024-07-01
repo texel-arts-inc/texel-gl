@@ -20,7 +20,8 @@ namespace TexelWGL {
     public:
         Context(Descriptor const &descriptor,
                 Handle handle,
-                std::string const &deviceName);
+                std::string const &deviceName,
+                std::shared_ptr <TexelGL::ShaderCompiler> const &shaderCompiler);
         virtual ~Context(void);
 
         Descriptor const &
