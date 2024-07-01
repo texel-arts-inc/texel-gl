@@ -49,6 +49,9 @@ public:
                   std::vector <std::pair <uint32_t,
                                           uint32_t>> const &specializationConstants);
 
+    TexelGL::GL::ShaderType
+    getType(void) const;
+
     void
     setShaderBinary(TexelGL::GL::ShaderBinaryFormat format,
                     std::span <uint8_t const> const &binaryData);

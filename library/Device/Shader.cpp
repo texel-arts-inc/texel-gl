@@ -68,6 +68,12 @@ TexelGL::Shader::compileShader(std::string const &entryPoint,
     this->state.compiled = true;
 }
 
+TexelGL::GL::ShaderType
+TexelGL::Shader::getType(void) const
+{
+    return this->shaderType;
+}
+
 void
 TexelGL::Shader::setShaderBinary(TexelGL::GL::ShaderBinaryFormat format,
                                  std::span <uint8_t const> const &binaryData)

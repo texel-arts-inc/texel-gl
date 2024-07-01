@@ -11,6 +11,9 @@ namespace Vulkan {
         Program(void);
 
         virtual ~Program(void);
+
+        virtual void
+        link(void) override;
     };
 } // namespace Vulkan
 } // TexelGL

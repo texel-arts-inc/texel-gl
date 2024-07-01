@@ -551,6 +551,17 @@ void
 TexelGL::ContextInterfaceGL20::glAttachShader(uint32_t program,
                                               uint32_t shader)
 {
+    auto const programPointer = std::dynamic_pointer_cast <Program> (this->context.getObject(program));
+    auto const shaderPointer = std::dynamic_pointer_cast <Shader> (this->context.getObject(shader));
+
+    if (!programPointer ||
+        !shaderPointer) {
+        return;
+    }
+
+    auto &programObject = *programPointer;
+
+    programObject.attachShader(shaderPointer);
 }
 
 void
@@ -609,6 +620,17 @@ void
 TexelGL::ContextInterfaceGL20::glDetachShader(uint32_t program,
                                               uint32_t shader)
 {
+    auto const programPointer = std::dynamic_pointer_cast <Program> (this->context.getObject(program));
+    auto const shaderPointer = std::dynamic_pointer_cast <Shader> (this->context.getObject(shader));
+
+    if (!programPointer ||
+        !shaderPointer) {
+        return;
+    }
+
+    auto &programObject = *programPointer;
+
+    programObject.detachShader(shaderPointer);
 }
 
 void
@@ -674,6 +696,15 @@ TexelGL::ContextInterfaceGL20::glGetUniformLocation(uint32_t program,
 void
 TexelGL::ContextInterfaceGL20::glLinkProgram(uint32_t program)
 {
+    auto const programPointer = std::dynamic_pointer_cast <Program> (this->context.getObject(program));
+
+    if (!programPointer) {
+        return;
+    }
+
+    auto &programObject = *programPointer;
+
+    programObject.link();
 }
 
 void
